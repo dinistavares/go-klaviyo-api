@@ -14,8 +14,18 @@ type GetProfilesResponse struct {
 }
 
 type GetProfileByIDResponse struct {
-	Data     *Profile   `json:"data,omitempty"`
-	Included []Included `json:"included,omitempty"`
+	Data     *Profile          `json:"data,omitempty"`
+	Included []ProfileIncluded `json:"included,omitempty"`
+}
+
+type GetProfileListsResponse struct {
+	Data  *[]ProfileList `json:"data,omitempty"`
+	Links *GenericLinks  `json:"links,omitempty"`
+}
+
+type GetProfileSegmentsResponse struct {
+	Data  *[]ProfileSegments `json:"data,omitempty"`
+	Links *GenericLinks      `json:"links,omitempty"`
 }
 
 type CreateUpdateProfile struct {
@@ -43,7 +53,7 @@ type ProfileAttributes struct {
 	Created             string                                `json:"created,omitempty"`
 	Updated             string                                `json:"updated,omitempty"`
 	LastEventDate       string                                `json:"last_event_date,omitempty"`
-	Properties          interface{}                          `json:"properties,omitempty"`
+	Properties          interface{}                           `json:"properties,omitempty"`
 	Location            *ProfileAttributesLocation            `json:"location,omitempty"`
 	Subscriptions       *ProfileAttributesSubscriptions       `json:"subscriptions,omitempty"`
 	PredictiveAnalytics *ProfileAttributesPredictiveAnalytics `json:"predictive_analytics,omitempty"`
@@ -120,17 +130,27 @@ type ProfileAttributesPredictiveAnalytics struct {
 	ExpectedDateOfNextOrder  string  `json:"expected_date_of_next_order,omitempty"`
 }
 
-type RelationshipLists struct {
+type ProfileRelationshipLists struct {
 	Links *GenericLinks `json:"links,omitempty"`
 }
 
-type RelationshipSegments struct {
+type ProfileRelationshipSegments struct {
+	Links *GenericLinks `json:"links,omitempty"`
+}
+
+type ProfileRelationshipProfiles struct {
+	Links *GenericLinks `json:"links,omitempty"`
+}
+
+type ProfileRelationshipTags struct {
 	Links *GenericLinks `json:"links,omitempty"`
 }
 
 type ProfileRelationships struct {
-	Lists    *RelationshipLists    `json:"lists,omitempty"`
-	Segments *RelationshipSegments `json:"segments,omitempty"`
+	Lists    *ProfileRelationshipLists    `json:"lists,omitempty"`
+	Segments *ProfileRelationshipSegments `json:"segments,omitempty"`
+	Profiles *ProfileRelationshipProfiles `json:"profiles,omitempty"`
+	Tags     *ProfileRelationshipTags     `json:"tags,omitempty"`
 }
 
 type ProfileMeta struct {
@@ -143,7 +163,7 @@ type ProfilePatchProperties struct {
 	Unset    string      `json:"unset,omitempty"`
 }
 
-type IncludedAttributes struct {
+type ProfileIncludedAttributes struct {
 	Name         string `json:"name,omitempty"`
 	Created      string `json:"created,omitempty"`
 	Updated      string `json:"updated,omitempty"`
@@ -153,21 +173,47 @@ type IncludedAttributes struct {
 	IsStarred    bool   `json:"is_starred,omitempty"`
 }
 
-type IncludedLinks struct {
+type ProfileIncludedLinks struct {
 	Self string `json:"self,omitempty"`
 }
 
-type Attributes0 struct {
-	Name    string `json:"name,omitempty"`
-	Created string `json:"created,omitempty"`
-	Updated string `json:"updated,omitempty"`
+type ProfileIncluded struct {
+	Type       string                     `json:"type,omitempty"`
+	ID         string                     `json:"id,omitempty"`
+	Attributes *ProfileIncludedAttributes `json:"attributes,omitempty"`
+	Links      *ProfileIncludedLinks      `json:"links,omitempty"`
 }
 
-type Included struct {
-	Type       string              `json:"type,omitempty"`
-	ID         string              `json:"id,omitempty"`
-	Attributes *IncludedAttributes `json:"attributes,omitempty"`
-	Links      *IncludedLinks      `json:"links,omitempty"`
+type ProfileList struct {
+	Type          string                 `json:"type,omitempty"`
+	ID            string                 `json:"id,omitempty"`
+	Attributes    *ProfileListAttributes `json:"attributes,omitempty"`
+	Links         *GenericLinks          `json:"links,omitempty"`
+	Relationships *ProfileRelationships  `json:"relationships,omitempty"`
+}
+
+type ProfileListAttributes struct {
+	Name         string `json:"name,omitempty"`
+	Created      string `json:"created,omitempty"`
+	Updated      string `json:"updated,omitempty"`
+	OptInProcess string `json:"opt_in_process,omitempty"`
+}
+
+type ProfileSegments struct {
+	Type          string                    `json:"type,omitempty"`
+	ID            string                    `json:"id,omitempty"`
+	Attributes    *ProfileSegmentAttributes `json:"attributes,omitempty"`
+	Links         *GenericLinks             `json:"links,omitempty"`
+	Relationships *ProfileRelationships     `json:"relationships,omitempty"`
+}
+
+type ProfileSegmentAttributes struct {
+	Name         string `json:"name,omitempty"`
+	Created      string `json:"created,omitempty"`
+	Updated      string `json:"updated,omitempty"`
+	IsActive     bool   `json:"is_active,omitempty"`
+	IsProcessing bool   `json:"is_processing,omitempty"`
+	IsStarred    bool   `json:"is_starred,omitempty"`
 }
 
 type ProfileQueries struct{}
@@ -179,6 +225,14 @@ type GetProfilesQueryParams struct {
 
 // Query parameters for 'GetProfileByID' method.
 type GetProfileByIDQueryParams struct {
+	QueryValues
+}
+
+type GetProfileListsQueryParams struct {
+	QueryValues
+}
+
+type GetProfileSegmentsQueryParams struct {
 	QueryValues
 }
 
@@ -350,4 +404,74 @@ func (service *ProfilesService) UpdateProfile(id string, profile *CreateUpdatePr
 	}
 
 	return newProfile, response, nil
+}
+
+//  ***********************************************************************************
+//  GET PROFILE LISTS (https://developers.klaviyo.com/en/reference/get_profile_lists)
+//  ***********************************************************************************
+
+// Creates Query parameters for 'GetProfileLists'
+func (pq ProfileQueries) NewGetProfileLists() *GetProfileListsQueryParams {
+	return &GetProfileListsQueryParams{
+		QueryValues: QueryValues{},
+	}
+}
+
+// Set list fields for for 'GetProfileLists' method.
+func (p GetProfileListsQueryParams) SetListFields(values []string) {
+	fields := queryFields{}
+	fields.setListFields(values)
+
+	p.setValues(fields)
+}
+
+// Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_profile_lists
+func (service *ProfilesService) GetProfileLists(id string, opts *GetProfileListsQueryParams) (*GetProfileListsResponse, *Response, error) {
+	_url := fmt.Sprintf("%s/profiles/%s/lists", ApiTypePrivate, id)
+
+	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+
+	lists := new(GetProfileListsResponse)
+	response, err := service.client.Do(req, lists)
+
+	if err != nil {
+		return nil, response, err
+	}
+
+	return lists, response, nil
+}
+
+//  ***********************************************************************************
+//  GET PROFILE SEGMENTS (https://developers.klaviyo.com/en/reference/get_profile_segments)
+//  ***********************************************************************************
+
+// Creates Query parameters for 'GetProfileSegments'
+func (pq ProfileQueries) NewGetProfileSegments() *GetProfileSegmentsQueryParams {
+	return &GetProfileSegmentsQueryParams{
+		QueryValues: QueryValues{},
+	}
+}
+
+// Set list fields for for 'GetProfileSegments' method.
+func (p GetProfileSegmentsQueryParams) SetListFields(values []string) {
+	fields := queryFields{}
+	fields.setSegmentFields(values)
+
+	p.setValues(fields)
+}
+
+// Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_profile_segments
+func (service *ProfilesService) GetProfileSegments(id string, opts *GetProfileSegmentsQueryParams) (*GetProfileSegmentsResponse, *Response, error) {
+	_url := fmt.Sprintf("%s/profiles/%s/segments", ApiTypePrivate, id)
+
+	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+
+	lists := new(GetProfileSegmentsResponse)
+	response, err := service.client.Do(req, lists)
+
+	if err != nil {
+		return nil, response, err
+	}
+
+	return lists, response, nil
 }
