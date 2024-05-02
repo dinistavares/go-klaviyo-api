@@ -8,9 +8,14 @@ import (
 // Profiles service
 type ProfilesService service
 
-type ProfileResponse struct {
+type GetProfilesResponse struct {
 	Data  *[]Profile    `json:"data,omitempty"`
 	Links *GenericLinks `json:"links,omitempty"`
+}
+
+type GetProfileByIDResponse struct {
+	Data     *Profile   `json:"data,omitempty"`
+	Included []Included `json:"included,omitempty"`
 }
 
 type Profile struct {
@@ -92,13 +97,13 @@ type ProfileAttributesSubscriptionsSmsMarketing struct {
 }
 
 type ProfileAttributesSubscriptionsEmailMarketingSuppression struct {
-	Reason    string    `json:"reason,omitempty"`
+	Reason    string     `json:"reason,omitempty"`
 	Timestamp *time.Time `json:"timestamp,omitempty"`
 }
 
 type ProfileAttributesSubscriptionsEmailMarketingListSuppressions struct {
-	ListID    string    `json:"list_id,omitempty"`
-	Reason    string    `json:"reason,omitempty"`
+	ListID    string     `json:"list_id,omitempty"`
+	Reason    string     `json:"reason,omitempty"`
 	Timestamp *time.Time `json:"timestamp,omitempty"`
 }
 
@@ -127,7 +132,34 @@ type ProfileRelationships struct {
 	Segments *RelationshipSegments `json:"segments,omitempty"`
 }
 
-type ProfileQueries struct {}
+type IncludedAttributes struct {
+	Name         string `json:"name,omitempty"`
+	Created      string `json:"created,omitempty"`
+	Updated      string `json:"updated,omitempty"`
+	OptInProcess string `json:"opt_in_process,omitempty"`
+	IsActive     bool   `json:"is_active,omitempty"`
+	IsProcessing bool   `json:"is_processing,omitempty"`
+	IsStarred    bool   `json:"is_starred,omitempty"`
+}
+
+type IncludedLinks struct {
+	Self string `json:"self,omitempty"`
+}
+
+type Attributes0 struct {
+	Name    string `json:"name,omitempty"`
+	Created string `json:"created,omitempty"`
+	Updated string `json:"updated,omitempty"`
+}
+
+type Included struct {
+	Type       string              `json:"type,omitempty"`
+	ID         string              `json:"id,omitempty"`
+	Attributes *IncludedAttributes `json:"attributes,omitempty"`
+	Links      *IncludedLinks      `json:"links,omitempty"`
+}
+
+type ProfileQueries struct{}
 
 // Query parameters for 'GetProfiles' method.
 type GetProfilesQueryParams struct {
@@ -139,6 +171,7 @@ type GetProfileByIDQueryParams struct {
 	QueryValues
 }
 
+// Create Query parameters for profile routes.
 func (service *ProfilesService) Query() *ProfileQueries {
 	return &ProfileQueries{}
 }
@@ -197,12 +230,12 @@ func (p GetProfilesQueryParams) Filter(filter QueryFilter) {
 }
 
 // Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_profiles
-func (service *ProfilesService) GetProfiles(opts *GetProfilesQueryParams) (*ProfileResponse, *Response, error) {
+func (service *ProfilesService) GetProfiles(opts *GetProfilesQueryParams) (*GetProfilesResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles", ApiTypePrivate)
 
 	req, _ := service.client.NewRequest("GET", _url, opts, nil)
 
-	profiles := new(ProfileResponse)
+	profiles := new(GetProfilesResponse)
 	response, err := service.client.Do(req, profiles)
 
 	if err != nil {
@@ -253,12 +286,12 @@ func (p GetProfileByIDQueryParams) Include(values []string) {
 }
 
 // Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_profile
-func (service *ProfilesService) GetProfileByID(id string, opts *GetProfileByIDQueryParams) (*ProfileResponse, *Response, error) {
+func (service *ProfilesService) GetProfileByID(id string, opts *GetProfileByIDQueryParams) (*GetProfileByIDResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles/%s", ApiTypePrivate, id)
 
 	req, _ := service.client.NewRequest("GET", _url, opts, nil)
 
-	profiles := new(ProfileResponse)
+	profiles := new(GetProfileByIDResponse)
 	response, err := service.client.Do(req, profiles)
 
 	if err != nil {
