@@ -18,7 +18,7 @@ type GetProfileByIDResponse struct {
 	Included []Included `json:"included,omitempty"`
 }
 
-type CreateProfile struct {
+type CreateUpdateProfile struct {
 	Data *Profile `json:"data,omitempty"`
 }
 
@@ -28,6 +28,7 @@ type Profile struct {
 	Attributes    *ProfileAttributes    `json:"attributes,omitempty"`
 	Links         *GenericLinks         `json:"links,omitempty"`
 	Relationships *ProfileRelationships `json:"relationships,omitempty"`
+	Meta          *ProfileMeta          `json:"meta,omitempty"`
 }
 
 type ProfileAttributes struct {
@@ -42,8 +43,8 @@ type ProfileAttributes struct {
 	Created             string                                `json:"created,omitempty"`
 	Updated             string                                `json:"updated,omitempty"`
 	LastEventDate       string                                `json:"last_event_date,omitempty"`
+	Properties          interface{}                          `json:"properties,omitempty"`
 	Location            *ProfileAttributesLocation            `json:"location,omitempty"`
-	Properties          *ProfileAttributesProperties          `json:"properties,omitempty"`
 	Subscriptions       *ProfileAttributesSubscriptions       `json:"subscriptions,omitempty"`
 	PredictiveAnalytics *ProfileAttributesPredictiveAnalytics `json:"predictive_analytics,omitempty"`
 }
@@ -59,10 +60,6 @@ type ProfileAttributesLocation struct {
 	Zip       string `json:"zip,omitempty"`
 	Timezone  string `json:"timezone,omitempty"`
 	IP        string `json:"ip,omitempty"`
-}
-
-type ProfileAttributesProperties struct {
-	Pseudonym string `json:"pseudonym,omitempty"`
 }
 
 type ProfileAttributesSubscriptions struct {
@@ -134,6 +131,16 @@ type RelationshipSegments struct {
 type ProfileRelationships struct {
 	Lists    *RelationshipLists    `json:"lists,omitempty"`
 	Segments *RelationshipSegments `json:"segments,omitempty"`
+}
+
+type ProfileMeta struct {
+	PatchProperties *ProfilePatchProperties `json:"patch_properties,omitempty"`
+}
+
+type ProfilePatchProperties struct {
+	Append   interface{} `json:"append,omitempty"`
+	Unappend interface{} `json:"unappend,omitempty"`
+	Unset    string      `json:"unset,omitempty"`
 }
 
 type IncludedAttributes struct {
@@ -306,16 +313,36 @@ func (service *ProfilesService) GetProfileByID(id string, opts *GetProfileByIDQu
 }
 
 //  ***********************************************************************************
-//  CREATE PROFIEL (https://developers.klaviyo.com/en/reference/create_profile)
+//  CREATE PROFILE (https://developers.klaviyo.com/en/reference/create_profile)
 //  ***********************************************************************************
 
 // Create a new profile. Reference: https://developers.klaviyo.com/en/reference/create_profile
-func (service *ProfilesService) CreateProfile(profile *CreateProfile) (*CreateProfile, *Response, error) {
+func (service *ProfilesService) CreateProfile(profile *CreateUpdateProfile) (*CreateUpdateProfile, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles", ApiTypePrivate)
 
 	req, _ := service.client.NewRequest("POST", _url, nil, profile)
 
-	newProfile := new(CreateProfile)
+	newProfile := new(CreateUpdateProfile)
+	response, err := service.client.Do(req, newProfile)
+
+	if err != nil {
+		return nil, response, err
+	}
+
+	return newProfile, response, nil
+}
+
+//  ***********************************************************************************
+//  UPDATE PROFILE (https://developers.klaviyo.com/en/reference/update_profile)
+//  ***********************************************************************************
+
+// Create a new profile. Reference: https://developers.klaviyo.com/en/reference/update_profile
+func (service *ProfilesService) UpdateProfile(id string, profile *CreateUpdateProfile) (*CreateUpdateProfile, *Response, error) {
+	_url := fmt.Sprintf("%s/profiles/%s", ApiTypePrivate, id)
+
+	req, _ := service.client.NewRequest("PATCH", _url, nil, profile)
+
+	newProfile := new(CreateUpdateProfile)
 	response, err := service.client.Do(req, newProfile)
 
 	if err != nil {
