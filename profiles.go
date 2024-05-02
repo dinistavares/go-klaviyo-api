@@ -127,8 +127,34 @@ type ProfileRelationships struct {
 	Segments *RelationshipSegments `json:"segments,omitempty"`
 }
 
-type GetProfilesQueryParams = QueryValues
+type ProfileQueries struct {}
 
+// Query parameters for 'GetProfiles' method.
+type GetProfilesQueryParams struct {
+	QueryValues
+}
+
+// Query parameters for 'GetProfileByID' method.
+type GetProfileByIDQueryParams struct {
+	QueryValues
+}
+
+func (service *ProfilesService) Query() *ProfileQueries {
+	return &ProfileQueries{}
+}
+
+//  ***********************************************************************************
+//  GET PROFILES (https://developers.klaviyo.com/en/reference/get_profiles)
+//  ***********************************************************************************
+
+// Creates Query parameters for 'GetProfiles'
+func (pq ProfileQueries) NewGetProfiles() *GetProfilesQueryParams {
+	return &GetProfilesQueryParams{
+		QueryValues: QueryValues{},
+	}
+}
+
+// Set profile fields for for 'GetProfiles' method.
 func (p GetProfilesQueryParams) SetProfileFields(values []string) {
 	fields := queryFields{}
 	fields.SetProfileFields(values)
@@ -136,6 +162,7 @@ func (p GetProfilesQueryParams) SetProfileFields(values []string) {
 	p.setValues(fields)
 }
 
+// Set profile additional fields for for 'GetProfiles' method.
 func (p GetProfilesQueryParams) SetProfileAdditionalFields(values []string) {
 	additionalFields := queryAdditionalFields{}
 	additionalFields.SetProfileAdditionalFields(values)
@@ -143,6 +170,7 @@ func (p GetProfilesQueryParams) SetProfileAdditionalFields(values []string) {
 	p.setValues(additionalFields)
 }
 
+// Set page cursor for for 'GetProfiles' method.
 func (p GetProfilesQueryParams) SetPageCursor(value string) {
 	page := queryPage{}
 	page.SetPageCursor(value)
@@ -150,6 +178,7 @@ func (p GetProfilesQueryParams) SetPageCursor(value string) {
 	p.setValues(page)
 }
 
+// Set page size for for 'GetProfiles' method.
 func (p GetProfilesQueryParams) SetPageSize(value int) {
 	page := queryPage{}
 	page.SetPageSize(value)
@@ -157,10 +186,12 @@ func (p GetProfilesQueryParams) SetPageSize(value int) {
 	p.setValues(page)
 }
 
+// Set sort for for 'GetProfiles' method.
 func (p GetProfilesQueryParams) Sort(value string) {
 	p.sort(value)
 }
 
+// Set filter for for 'GetProfiles' method.
 func (p GetProfilesQueryParams) Filter(filter QueryFilter) {
 	p.filter(filter)
 }
@@ -168,6 +199,62 @@ func (p GetProfilesQueryParams) Filter(filter QueryFilter) {
 // Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_profiles
 func (service *ProfilesService) GetProfiles(opts *GetProfilesQueryParams) (*ProfileResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles", ApiTypePrivate)
+
+	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+
+	profiles := new(ProfileResponse)
+	response, err := service.client.Do(req, profiles)
+
+	if err != nil {
+		return nil, response, err
+	}
+
+	return profiles, response, nil
+}
+
+//  ***********************************************************************************
+//  GET PROFILES BY ID (https://developers.klaviyo.com/en/reference/get_profile)
+//  ***********************************************************************************
+
+// Creates Query parameters for 'GetProfileByID'
+func (pq ProfileQueries) NewGetProfileByID() *GetProfileByIDQueryParams {
+	return &GetProfileByIDQueryParams{
+		QueryValues: QueryValues{},
+	}
+}
+
+// Set profile fields for for 'GetProfileByID' method.
+func (p GetProfileByIDQueryParams) SetProfileFields(values []string) {
+	fields := queryFields{}
+	fields.SetProfileFields(values)
+
+	p.setValues(fields)
+}
+
+// Set list fields for for 'GetProfileByID' method.
+func (p GetProfileByIDQueryParams) SetListFields(values []string) {
+	fields := queryFields{}
+	fields.SetListFields(values)
+
+	p.setValues(fields)
+}
+
+// Set segment fields for for 'GetProfileByID' method.
+func (p GetProfileByIDQueryParams) SetSegmentFields(values []string) {
+	fields := queryFields{}
+	fields.SetSegmentFields(values)
+
+	p.setValues(fields)
+}
+
+// Set sort for for 'GetProfiles' method.
+func (p GetProfileByIDQueryParams) Include(value string) {
+	p.include(value)
+}
+
+// Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_profile
+func (service *ProfilesService) GetProfileByID(id string, opts *GetProfileByIDQueryParams) (*ProfileResponse, *Response, error) {
+	_url := fmt.Sprintf("%s/profiles/%s", ApiTypePrivate, id)
 
 	req, _ := service.client.NewRequest("GET", _url, opts, nil)
 
