@@ -1,17 +1,22 @@
 package klaviyo
 
 import (
+	"reflect"
 	"strings"
 )
 
 type QueryValues map[string]string
 
-func (p QueryValues) encode() string {
+func (v *QueryValues) getQueryValues() QueryValues {
+	return *v
+}
+
+func (v QueryValues) encode() string {
 	var query string
 
 	count := 0
 
-	for key, value := range p {
+	for key, value := range v {
 		if count > 0 {
 			query += "&"
 		} else {
@@ -26,18 +31,44 @@ func (p QueryValues) encode() string {
 	return query
 }
 
-func (p QueryValues) setValues(fields map[string]string) {
+func (v QueryValues) setValues(fields map[string]string) {
 	for key, value := range fields {
-		p[key] = value
+		v[key] = value
 	}
 }
 
-func (p QueryValues) sort(value string) {
-	p["sort"] = value
+func (v QueryValues) sort(value string) {
+	v["sort"] = value
 }
 
-func (p QueryValues) filter(values QueryFilter) {
+func (v QueryValues) include(value string) {
+	v["include"] = value
+}
+
+func (v QueryValues) filter(values QueryFilter) {
 	if len(values) > 0 {
-		p["filter"] = strings.Join(values, ",")
+		v["filter"] = strings.Join(values, ",")
 	}
+}
+
+func isPointerWithQueryValues(i interface{}) (interface{}, bool) {
+	if i == nil {
+		return nil, false
+	}
+
+	val := reflect.ValueOf(i)
+
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+
+	if val.Kind() == reflect.Struct {
+		field := val.FieldByName("QueryValues")
+
+		if field.IsValid() {
+			return field.Interface(), true
+		}
+	}
+
+	return nil, false
 }

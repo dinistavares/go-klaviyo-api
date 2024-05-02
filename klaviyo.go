@@ -87,14 +87,14 @@ type Error struct {
 
 func (response *GenericResponse) Error() string {
 	errorString := fmt.Sprintf("%v %v: %d",
-	response.Response.Request.Method, response.Response.Request.URL,
-	response.Response.StatusCode)
+		response.Response.Request.Method, response.Response.Request.URL,
+		response.Response.StatusCode)
 
 	if response.Errors != nil && len(*response.Errors) > 0 {
 		firstError := (*response.Errors)[0]
 
 		errorString = fmt.Sprintf("%s Code: %s Title: %s Detail: %s (ID: %s)",
-		 errorString, firstError.Code, firstError.Title, firstError.Detail, firstError.ID)
+			errorString, firstError.Code, firstError.Title, firstError.Detail, firstError.ID)
 	}
 
 	return errorString
@@ -136,10 +136,12 @@ func (client *Client) Authenticate(accessToken string) {
 }
 
 // NewRequest creates an API request
-func (client *Client) NewRequest(method, urlStr string, opts *QueryValues, body interface{}) (*http.Request, error) {
+func (client *Client) NewRequest(method, urlStr string, opts interface{}, body interface{}) (*http.Request, error) {
 	// Append Query Params to URL
-	if opts != nil {
-		urlStr += opts.encode()
+	if opts, ok := isPointerWithQueryValues(opts); ok {
+		if v, ok := opts.(QueryValues); ok {
+			urlStr += v.getQueryValues().encode()
+		}
 	}
 
 	rel, err := url.Parse(urlStr)
@@ -222,7 +224,7 @@ func (client *Client) doAttempt(req *http.Request, v interface{}) (*Response, bo
 	}
 
 	defer resp.Body.Close()
-	
+
 	response := newResponse(resp)
 
 	err = checkResponse(resp)
@@ -245,9 +247,9 @@ func (client *Client) doAttempt(req *http.Request, v interface{}) (*Response, bo
 }
 
 func newResponse(httpResponse *http.Response) *Response {
-  response := Response{Response: httpResponse}
+	response := Response{Response: httpResponse}
 
-  return &response
+	return &response
 }
 
 // checkRequestRetry checks if should retry request
