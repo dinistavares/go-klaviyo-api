@@ -374,6 +374,9 @@ func (service *ProfilesService) GetProfileByID(id string, opts *GetProfileByIDQu
 func (service *ProfilesService) CreateProfile(profile *CreateUpdateProfile) (*CreateUpdateProfile, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles", ApiTypePrivate)
 
+	// Ensure type is set to "profile" if empty
+	service.setCreateUpdatedType(profile)
+
 	req, _ := service.client.NewRequest("POST", _url, nil, profile)
 
 	newProfile := new(CreateUpdateProfile)
@@ -394,7 +397,33 @@ func (service *ProfilesService) CreateProfile(profile *CreateUpdateProfile) (*Cr
 func (service *ProfilesService) UpdateProfile(id string, profile *CreateUpdateProfile) (*CreateUpdateProfile, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles/%s", ApiTypePrivate, id)
 
+	// Ensure type is set to "profile" if empty
+	service.setCreateUpdatedType(profile)
+
 	req, _ := service.client.NewRequest("PATCH", _url, nil, profile)
+
+	newProfile := new(CreateUpdateProfile)
+	response, err := service.client.Do(req, newProfile)
+
+	if err != nil {
+		return nil, response, err
+	}
+
+	return newProfile, response, nil
+}
+
+//  ***********************************************************************************
+//  CREATE OR UPDATE PROFILE (https://developers.klaviyo.com/en/reference/create_or_update_profile)
+//  ***********************************************************************************
+
+// Create a new profile. Reference: https://developers.klaviyo.com/en/reference/create_or_update_profile
+func (service *ProfilesService) CreateOrUpdateProfile(profile *CreateUpdateProfile) (*CreateUpdateProfile, *Response, error) {
+	_url := fmt.Sprintf("%s/profile-import", ApiTypePrivate)
+
+	// Ensure type is set to "profile" if empty
+	service.setCreateUpdatedType(profile)
+
+	req, _ := service.client.NewRequest("POST", _url, nil, profile)
 
 	newProfile := new(CreateUpdateProfile)
 	response, err := service.client.Do(req, newProfile)
@@ -474,4 +503,11 @@ func (service *ProfilesService) GetProfileSegments(id string, opts *GetProfileSe
 	}
 
 	return lists, response, nil
+}
+
+// Sets CreateUpdateProfile.Type to 'profile' if it is not set
+func (service *ProfilesService) setCreateUpdatedType(profile *CreateUpdateProfile) {
+	if profile != nil && profile.Data != nil && profile.Data.Type == "" {
+		profile.Data.Type = "profile"
+	}
 }
