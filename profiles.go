@@ -18,6 +18,10 @@ type GetProfileByIDResponse struct {
 	Included []Included `json:"included,omitempty"`
 }
 
+type CreateProfile struct {
+	Data *Profile `json:"data,omitempty"`
+}
+
 type Profile struct {
 	Type          string                `json:"type,omitempty"`
 	ID            string                `json:"id,omitempty"`
@@ -291,12 +295,32 @@ func (service *ProfilesService) GetProfileByID(id string, opts *GetProfileByIDQu
 
 	req, _ := service.client.NewRequest("GET", _url, opts, nil)
 
-	profiles := new(GetProfileByIDResponse)
-	response, err := service.client.Do(req, profiles)
+	profile := new(GetProfileByIDResponse)
+	response, err := service.client.Do(req, profile)
 
 	if err != nil {
 		return nil, response, err
 	}
 
-	return profiles, response, nil
+	return profile, response, nil
+}
+
+//  ***********************************************************************************
+//  CREATE PROFIEL (https://developers.klaviyo.com/en/reference/create_profile)
+//  ***********************************************************************************
+
+// Create a new profile. Reference: https://developers.klaviyo.com/en/reference/create_profile
+func (service *ProfilesService) CreateProfile(profile *CreateProfile) (*CreateProfile, *Response, error) {
+	_url := fmt.Sprintf("%s/profiles", ApiTypePrivate)
+
+	req, _ := service.client.NewRequest("POST", _url, nil, profile)
+
+	newProfile := new(CreateProfile)
+	response, err := service.client.Do(req, newProfile)
+
+	if err != nil {
+		return nil, response, err
+	}
+
+	return newProfile, response, nil
 }
