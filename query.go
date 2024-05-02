@@ -41,8 +41,8 @@ func (v QueryValues) sort(value string) {
 	v["sort"] = value
 }
 
-func (v QueryValues) include(value string) {
-	v["include"] = value
+func (v QueryValues) include(values []string) {
+	v["include"] = strings.Join(values, ",")
 }
 
 func (v QueryValues) filter(values QueryFilter) {

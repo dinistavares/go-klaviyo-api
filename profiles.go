@@ -157,7 +157,7 @@ func (pq ProfileQueries) NewGetProfiles() *GetProfilesQueryParams {
 // Set profile fields for for 'GetProfiles' method.
 func (p GetProfilesQueryParams) SetProfileFields(values []string) {
 	fields := queryFields{}
-	fields.SetProfileFields(values)
+	fields.setProfileFields(values)
 
 	p.setValues(fields)
 }
@@ -173,7 +173,7 @@ func (p GetProfilesQueryParams) SetProfileAdditionalFields(values []string) {
 // Set page cursor for for 'GetProfiles' method.
 func (p GetProfilesQueryParams) SetPageCursor(value string) {
 	page := queryPage{}
-	page.SetPageCursor(value)
+	page.setPageCursor(value)
 
 	p.setValues(page)
 }
@@ -181,7 +181,7 @@ func (p GetProfilesQueryParams) SetPageCursor(value string) {
 // Set page size for for 'GetProfiles' method.
 func (p GetProfilesQueryParams) SetPageSize(value int) {
 	page := queryPage{}
-	page.SetPageSize(value)
+	page.setPageSize(value)
 
 	p.setValues(page)
 }
@@ -226,7 +226,7 @@ func (pq ProfileQueries) NewGetProfileByID() *GetProfileByIDQueryParams {
 // Set profile fields for for 'GetProfileByID' method.
 func (p GetProfileByIDQueryParams) SetProfileFields(values []string) {
 	fields := queryFields{}
-	fields.SetProfileFields(values)
+	fields.setProfileFields(values)
 
 	p.setValues(fields)
 }
@@ -234,7 +234,7 @@ func (p GetProfileByIDQueryParams) SetProfileFields(values []string) {
 // Set list fields for for 'GetProfileByID' method.
 func (p GetProfileByIDQueryParams) SetListFields(values []string) {
 	fields := queryFields{}
-	fields.SetListFields(values)
+	fields.setListFields(values)
 
 	p.setValues(fields)
 }
@@ -242,14 +242,14 @@ func (p GetProfileByIDQueryParams) SetListFields(values []string) {
 // Set segment fields for for 'GetProfileByID' method.
 func (p GetProfileByIDQueryParams) SetSegmentFields(values []string) {
 	fields := queryFields{}
-	fields.SetSegmentFields(values)
+	fields.setSegmentFields(values)
 
 	p.setValues(fields)
 }
 
 // Set sort for for 'GetProfiles' method.
-func (p GetProfileByIDQueryParams) Include(value string) {
-	p.include(value)
+func (p GetProfileByIDQueryParams) Include(values []string) {
+	p.include(values)
 }
 
 // Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_profile
