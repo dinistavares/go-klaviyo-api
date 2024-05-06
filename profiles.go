@@ -33,12 +33,12 @@ type CreateUpdateProfile struct {
 }
 
 type Profile struct {
-	Type          string                `json:"type,omitempty"`
-	ID            string                `json:"id,omitempty"`
-	Attributes    *ProfileAttributes    `json:"attributes,omitempty"`
-	Links         *GenericLinks         `json:"links,omitempty"`
-	Relationships *Relationships `json:"relationships,omitempty"`
-	Meta          *ProfileMeta          `json:"meta,omitempty"`
+	Type          string             `json:"type,omitempty"`
+	ID            string             `json:"id,omitempty"`
+	Attributes    *ProfileAttributes `json:"attributes,omitempty"`
+	Links         *GenericLinks      `json:"links,omitempty"`
+	Relationships *Relationships     `json:"relationships,omitempty"`
+	Meta          *ProfileMeta       `json:"meta,omitempty"`
 }
 
 type ProfileAttributes struct {
@@ -162,7 +162,7 @@ type ProfileList struct {
 	ID            string                 `json:"id,omitempty"`
 	Attributes    *ProfileListAttributes `json:"attributes,omitempty"`
 	Links         *GenericLinks          `json:"links,omitempty"`
-	Relationships *Relationships  `json:"relationships,omitempty"`
+	Relationships *Relationships         `json:"relationships,omitempty"`
 }
 
 type ProfileListAttributes struct {
@@ -177,7 +177,7 @@ type ProfileSegments struct {
 	ID            string                    `json:"id,omitempty"`
 	Attributes    *ProfileSegmentAttributes `json:"attributes,omitempty"`
 	Links         *GenericLinks             `json:"links,omitempty"`
-	Relationships *Relationships     `json:"relationships,omitempty"`
+	Relationships *Relationships            `json:"relationships,omitempty"`
 }
 
 type ProfileSegmentAttributes struct {
