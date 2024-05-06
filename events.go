@@ -15,7 +15,7 @@ type GetEventsResponse struct {
 }
 
 type GetEventByIDResponse struct {
-	Data     *[]Event          `json:"data,omitempty"`
+	Data     *Event            `json:"data,omitempty"`
 	Included *[]EventsIncluded `json:"included,omitempty"`
 }
 
