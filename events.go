@@ -9,9 +9,18 @@ import (
 type EventsService service
 
 type GetEventsResponse struct {
-	Data     *[]Event       `json:"data,omitempty"`
-	Links    *GenericLinks  `json:"links,omitempty"`
-	Included *[]interface{} `json:"included,omitempty"`
+	Data     *[]Event          `json:"data,omitempty"`
+	Links    *GenericLinks     `json:"links,omitempty"`
+	Included *[]EventsIncluded `json:"included,omitempty"`
+}
+
+type GetEventByIDResponse struct {
+	Data     *[]Event          `json:"data,omitempty"`
+	Included *[]EventsIncluded `json:"included,omitempty"`
+}
+
+type CreateEvent struct {
+	Data *Event `json:"data,omitempty"`
 }
 
 type Event struct {
@@ -29,10 +38,23 @@ type EventAttributes struct {
 	UUID            string      `json:"uuid,omitempty"`
 }
 
+type EventsIncluded struct {
+	Type          string         `json:"type,omitempty"`
+	ID            string         `json:"id,omitempty"`
+	Attributes    *interface{}   `json:"attributes,omitempty"`
+	Links         *GenericLinks  `json:"links,omitempty"`
+	RelationShips *Relationships `json:"relationships,omitempty"`
+}
+
 type EventQueries struct{}
 
 // Query parameters for 'GetEvents' method.
 type GetEventsQueryParams struct {
+	QueryValues
+}
+
+// Query parameters for 'GetEventByID' method.
+type GetEventByIDQueryParams struct {
 	QueryValues
 }
 
@@ -99,7 +121,7 @@ func (p GetEventsQueryParams) Sort(value string) {
 	p.sort(value)
 }
 
-// Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_events
+// Get events. Reference: https://developers.klaviyo.com/en/reference/get_events
 func (service *EventsService) GetEvents(opts *GetEventsQueryParams) (*GetEventsResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/events", ApiTypePrivate)
 
@@ -113,4 +135,80 @@ func (service *EventsService) GetEvents(opts *GetEventsQueryParams) (*GetEventsR
 	}
 
 	return events, response, nil
+}
+
+//  ***********************************************************************************
+//  GET EVENT (https://developers.klaviyo.com/en/reference/get_event)
+//  ***********************************************************************************
+
+// Creates Query parameters for 'NewGetEventByID'
+func (pq EventQueries) NewGetEventByID() *GetEventByIDQueryParams {
+	return &GetEventByIDQueryParams{
+		QueryValues: QueryValues{},
+	}
+}
+
+// Set event fields for for 'GetEventByID' method.
+func (p GetEventByIDQueryParams) SetEventFields(values []string) {
+	fields := queryFields{}
+	fields.setEventFields(values)
+
+	p.setValues(fields)
+}
+
+// Set metric fields for for 'GetEventByID' method.
+func (p GetEventByIDQueryParams) SetMetricFields(values []string) {
+	fields := queryFields{}
+	fields.setMetricFields(values)
+
+	p.setValues(fields)
+}
+
+// Set profile fields for for 'GetEventByID' method.
+func (p GetEventByIDQueryParams) SetProfileFields(values []string) {
+	fields := queryFields{}
+	fields.setProfileFields(values)
+
+	p.setValues(fields)
+}
+
+// Set sort for for 'GetEventByID' method.
+func (p GetEventByIDQueryParams) Include(values []string) {
+	p.include(values)
+}
+
+// Get event. Reference: https://developers.klaviyo.com/en/reference/get_event
+func (service *EventsService) GetEventByID(id string, opts *GetEventByIDQueryParams) (*GetEventByIDResponse, *Response, error) {
+	_url := fmt.Sprintf("%s/events/%s", ApiTypePrivate, id)
+
+	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+
+	events := new(GetEventByIDResponse)
+	response, err := service.client.Do(req, events)
+
+	if err != nil {
+		return nil, response, err
+	}
+
+	return events, response, nil
+}
+
+//  ***********************************************************************************
+//  CREATE EVENTS (https://developers.klaviyo.com/en/reference/create_events)
+//  ***********************************************************************************
+
+// Create event. Reference: https://developers.klaviyo.com/en/reference/create_events
+func (service *EventsService) CreateEvent(event *CreateEvent) (*Response, error) {
+	_url := fmt.Sprintf("%s/events", ApiTypePrivate)
+
+	req, _ := service.client.NewRequest("POST", _url, nil, event)
+
+	events := new(GetEventsResponse)
+	response, err := service.client.Do(req, events)
+
+	if err != nil {
+		return response, err
+	}
+
+	return response, nil
 }
