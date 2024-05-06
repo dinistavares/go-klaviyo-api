@@ -19,8 +19,38 @@ type GetEventByIDResponse struct {
 	Included *[]EventsIncluded `json:"included,omitempty"`
 }
 
+type CreateEventCard struct {
+	Data *CreateEvent `json:"data,omitempty"`
+}
+
 type CreateEvent struct {
-	Data *Event `json:"data,omitempty"`
+	Type       string                 `json:"type,omitempty"`
+	ID         string                 `json:"id,omitempty"`
+	Attributes *CreateEventAttributes `json:"attributes,omitempty"`
+}
+
+type CreateEventAttributes struct {
+	UniqueID      string                       `json:"unique_id,omitempty"`
+	Properties    interface{}                  `json:"properties,omitempty"`
+	Value         float64                      `json:"value,omitempty"`
+	ValueCurrency string                       `json:"value_currency,omitempty"`
+	Time          *time.Time                   `json:"time,omitempty"`
+	Profile       *CreateUpdateProfile         `json:"profile,omitempty"`
+	Metric        *CreateEventAttributesMetric `json:"metric,omitempty"`
+}
+
+type CreateEventAttributesMetric struct {
+	Data *CreateEventAttributesMetricData `json:"data,omitempty"`
+}
+
+type CreateEventAttributesMetricData struct {
+	Type       string                                     `json:"type,omitempty"`
+	Attributes *CreateEventAttributesMetricDataAttributes `json:"attributes,omitempty"`
+}
+
+type CreateEventAttributesMetricDataAttributes struct {
+	Name    string `json:"name,omitempty"`
+	Service string `json:"service,omitempty"`
 }
 
 type Event struct {
@@ -197,9 +227,47 @@ func (service *EventsService) GetEventByID(id string, opts *GetEventByIDQueryPar
 //  CREATE EVENTS (https://developers.klaviyo.com/en/reference/create_events)
 //  ***********************************************************************************
 
+// Sets new event metric
+func (event *CreateEventCard) SetEventMetric(name string, service string) {
+	event.setEventDataAttributes()
+
+	event.Data.Attributes.Metric = &CreateEventAttributesMetric{
+		Data: &CreateEventAttributesMetricData{
+			Type: "metric",
+			Attributes: &CreateEventAttributesMetricDataAttributes{
+				Name: name,
+				Service: service,
+			},
+		},
+	}
+}
+
+// Sets new event profile
+func (event *CreateEventCard) SetEventProfile(profile *Profile) {
+	event.setEventDataAttributes()
+
+	if profile != nil && profile.Type == "" {
+		profile.Type = "profile"
+	}
+
+	event.Data.Attributes.Profile = &CreateUpdateProfile{
+		Data: profile,
+	}
+}
+
+// Sets new event properties
+func (event *CreateEventCard) SetEventProperties(properties interface{}) {
+	event.setEventDataAttributes()
+
+	event.Data.Attributes.Properties = properties
+}
+
 // Create event. Reference: https://developers.klaviyo.com/en/reference/create_events
-func (service *EventsService) CreateEvent(event *CreateEvent) (*Response, error) {
+func (service *EventsService) CreateEvent(event *CreateEventCard) (*Response, error) {
 	_url := fmt.Sprintf("%s/events", ApiTypePrivate)
+
+	// Ensure type is set to "event" if empty
+	service.setCreateUpdatedType(event)
 
 	req, _ := service.client.NewRequest("POST", _url, nil, event)
 
@@ -211,4 +279,21 @@ func (service *EventsService) CreateEvent(event *CreateEvent) (*Response, error)
 	}
 
 	return response, nil
+}
+
+// Sets CreateEvent.Type to 'event' if it is not set
+func (service *EventsService) setCreateUpdatedType(event *CreateEventCard) {
+	if event != nil && event.Data != nil && event.Data.Type == "" {
+		event.Data.Type = "event"
+	}
+}
+
+func (event *CreateEventCard) setEventDataAttributes() {
+	if event.Data == nil {
+		event.Data = &CreateEvent{}
+	}
+
+	if event.Data.Attributes == nil {
+		event.Data.Attributes = &CreateEventAttributes{}
+	}
 }
