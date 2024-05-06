@@ -56,6 +56,7 @@ type Client struct {
 	baseURL *url.URL
 
 	Profiles *ProfilesService
+	Events   *EventsService
 }
 
 type service struct {
@@ -120,6 +121,7 @@ func NewWithConfig(config ClientConfig) *Client {
 
 	// Map services
 	client.Profiles = &ProfilesService{client: client}
+	client.Events = &EventsService{client: client}
 
 	return client
 }

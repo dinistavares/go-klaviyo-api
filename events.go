@@ -1,0 +1,116 @@
+package klaviyo
+
+import (
+	"fmt"
+	"time"
+)
+
+// Events service
+type EventsService service
+
+type GetEventsResponse struct {
+	Data     *[]Event       `json:"data,omitempty"`
+	Links    *GenericLinks  `json:"links,omitempty"`
+	Included *[]interface{} `json:"included,omitempty"`
+}
+
+type Event struct {
+	Type          string           `json:"type,omitempty"`
+	ID            string           `json:"id,omitempty"`
+	Attributes    *EventAttributes `json:"attributes,omitempty"`
+	Links         *GenericLinks    `json:"links,omitempty"`
+	Relationships *Relationships   `json:"relationships,omitempty"`
+}
+
+type EventAttributes struct {
+	Timestamp       int         `json:"timestamp,omitempty"`
+	EventProperties interface{} `json:"event_properties,omitempty"`
+	Datetime        *time.Time  `json:"datetime,omitempty"`
+	UUID            string      `json:"uuid,omitempty"`
+}
+
+type EventQueries struct{}
+
+// Query parameters for 'GetEvents' method.
+type GetEventsQueryParams struct {
+	QueryValues
+}
+
+// Create Query parameters for event routes.
+func (service *EventsService) Query() *EventQueries {
+	return &EventQueries{}
+}
+
+//  ***********************************************************************************
+//  GET EVENTS (https://developers.klaviyo.com/en/reference/get_events)
+//  ***********************************************************************************
+
+// Creates Query parameters for 'GetEvents'
+func (pq EventQueries) NewGetEvents() *GetEventsQueryParams {
+	return &GetEventsQueryParams{
+		QueryValues: QueryValues{},
+	}
+}
+
+// Set profile fields for for 'GetEvents' method.
+func (p GetEventsQueryParams) SetProfileFields(values []string) {
+	fields := queryFields{}
+	fields.setProfileFields(values)
+
+	p.setValues(fields)
+}
+
+// Set event fields for for 'GetEvents' method.
+func (p GetEventsQueryParams) SetEventFields(values []string) {
+	fields := queryFields{}
+	fields.setEventFields(values)
+
+	p.setValues(fields)
+}
+
+// Set metric fields for for 'GetEvents' method.
+func (p GetEventsQueryParams) SetMetricFields(values []string) {
+	fields := queryFields{}
+	fields.setMetricFields(values)
+
+	p.setValues(fields)
+}
+
+// Set filter for for 'GetEvents' method.
+func (p GetEventsQueryParams) Filter(filter QueryFilter) {
+	p.filter(filter)
+}
+
+// Set sort for for 'GetEvents' method.
+func (p GetEventsQueryParams) Include(values []string) {
+	p.include(values)
+}
+
+// Set page cursor for for 'GetEvents' method.
+func (p GetEventsQueryParams) SetPageCursor(value string) {
+	page := queryPage{}
+	page.setPageCursor(value)
+
+	p.setValues(page)
+}
+
+// Set sort for for 'GetEvents' method.
+func (p GetEventsQueryParams) Sort(value string) {
+	p.sort(value)
+}
+
+// Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_events
+func (service *EventsService) GetEvents(opts *GetEventsQueryParams) (*GetEventsResponse, *Response, error) {
+	_url := fmt.Sprintf("%s/events", ApiTypePrivate)
+
+	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+
+	events := new(GetEventsResponse)
+	response, err := service.client.Do(req, events)
+
+	if err != nil {
+		return nil, response, err
+	}
+
+	return events, response, nil
+}

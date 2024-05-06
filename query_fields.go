@@ -24,3 +24,11 @@ func (f queryFields) setProfileFields(values []string) {
 func (f queryFields) setSegmentFields(values []string) {
 	f.set("segment", values)
 }
+
+func (f queryFields) setEventFields(values []string) {
+	f.set("event", values)
+}
+
+func (f queryFields) setMetricFields(values []string) {
+	f.set("metric", values)
+}

@@ -14,8 +14,8 @@ type GetProfilesResponse struct {
 }
 
 type GetProfileByIDResponse struct {
-	Data     *Profile          `json:"data,omitempty"`
-	Included []ProfileIncluded `json:"included,omitempty"`
+	Data     *Profile           `json:"data,omitempty"`
+	Included *[]ProfileIncluded `json:"included,omitempty"`
 }
 
 type GetProfileListsResponse struct {
@@ -37,7 +37,7 @@ type Profile struct {
 	ID            string                `json:"id,omitempty"`
 	Attributes    *ProfileAttributes    `json:"attributes,omitempty"`
 	Links         *GenericLinks         `json:"links,omitempty"`
-	Relationships *ProfileRelationships `json:"relationships,omitempty"`
+	Relationships *Relationships `json:"relationships,omitempty"`
 	Meta          *ProfileMeta          `json:"meta,omitempty"`
 }
 
@@ -130,29 +130,6 @@ type ProfileAttributesPredictiveAnalytics struct {
 	ExpectedDateOfNextOrder  string  `json:"expected_date_of_next_order,omitempty"`
 }
 
-type ProfileRelationshipLists struct {
-	Links *GenericLinks `json:"links,omitempty"`
-}
-
-type ProfileRelationshipSegments struct {
-	Links *GenericLinks `json:"links,omitempty"`
-}
-
-type ProfileRelationshipProfiles struct {
-	Links *GenericLinks `json:"links,omitempty"`
-}
-
-type ProfileRelationshipTags struct {
-	Links *GenericLinks `json:"links,omitempty"`
-}
-
-type ProfileRelationships struct {
-	Lists    *ProfileRelationshipLists    `json:"lists,omitempty"`
-	Segments *ProfileRelationshipSegments `json:"segments,omitempty"`
-	Profiles *ProfileRelationshipProfiles `json:"profiles,omitempty"`
-	Tags     *ProfileRelationshipTags     `json:"tags,omitempty"`
-}
-
 type ProfileMeta struct {
 	PatchProperties *ProfilePatchProperties `json:"patch_properties,omitempty"`
 }
@@ -173,15 +150,11 @@ type ProfileIncludedAttributes struct {
 	IsStarred    bool   `json:"is_starred,omitempty"`
 }
 
-type ProfileIncludedLinks struct {
-	Self string `json:"self,omitempty"`
-}
-
 type ProfileIncluded struct {
 	Type       string                     `json:"type,omitempty"`
 	ID         string                     `json:"id,omitempty"`
 	Attributes *ProfileIncludedAttributes `json:"attributes,omitempty"`
-	Links      *ProfileIncludedLinks      `json:"links,omitempty"`
+	Links      *GenericLinks              `json:"links,omitempty"`
 }
 
 type ProfileList struct {
@@ -189,7 +162,7 @@ type ProfileList struct {
 	ID            string                 `json:"id,omitempty"`
 	Attributes    *ProfileListAttributes `json:"attributes,omitempty"`
 	Links         *GenericLinks          `json:"links,omitempty"`
-	Relationships *ProfileRelationships  `json:"relationships,omitempty"`
+	Relationships *Relationships  `json:"relationships,omitempty"`
 }
 
 type ProfileListAttributes struct {
@@ -204,7 +177,7 @@ type ProfileSegments struct {
 	ID            string                    `json:"id,omitempty"`
 	Attributes    *ProfileSegmentAttributes `json:"attributes,omitempty"`
 	Links         *GenericLinks             `json:"links,omitempty"`
-	Relationships *ProfileRelationships     `json:"relationships,omitempty"`
+	Relationships *Relationships     `json:"relationships,omitempty"`
 }
 
 type ProfileSegmentAttributes struct {
