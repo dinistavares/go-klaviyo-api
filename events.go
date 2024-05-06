@@ -288,6 +288,7 @@ func (service *EventsService) setCreateUpdatedType(event *CreateEventCard) {
 	}
 }
 
+// Ensure event data and attribute pointers are created
 func (event *CreateEventCard) setEventDataAttributes() {
 	if event.Data == nil {
 		event.Data = &CreateEvent{}
