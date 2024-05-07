@@ -5,12 +5,13 @@ type Relationships struct {
 	AttributedEvent      *RelationShipAttributedEvent      `json:"attributed-event,omitempty"`
 	Campaign             *RelationShipCampaign             `json:"campaign,omitempty"`
 	CampaignMessage      *RelationShipCampaignMessage      `json:"campaign-message,omitempty"`
+	Conversation         *RelationShipConversation         `json:"conversation,omitempty"`
 	Event                *RelationShipEvent                `json:"event,omitempty"`
 	Flow                 *RelationShipFlow                 `json:"flow,omitempty"`
 	FlowMessage          *RelationShipFlowMessage          `json:"flow-message,omitempty"`
 	FlowMessageVariation *RelationShipFlowMessageVariation `json:"low-message-variation,omitempty"`
 	Lists                *RelationshipLists                `json:"lists,omitempty"`
-	Metric               *RelarionshipMetric               `json:"metric,omitempty"`
+	Metric               *RelationshipMetric               `json:"metric,omitempty"`
 	Profile              *RelationshipProfile              `json:"profile,omitempty"`
 	Profiles             *RelationshipProfiles             `json:"profiles,omitempty"`
 	Segments             *RelationshipSegments             `json:"segments,omitempty"`
@@ -42,6 +43,10 @@ type RelationShipCampaignMessage struct {
 	Links *GenericLinks            `json:"links,omitempty"`
 }
 
+type RelationShipConversation struct {
+	Links *GenericLinks `json:"links,omitempty"`
+}
+
 type RelationShipEvent struct {
 	Data  *Event        `json:"data,omitempty"`
 	Links *GenericLinks `json:"links,omitempty"`
@@ -66,7 +71,7 @@ type RelationshipLists struct {
 	Links *GenericLinks `json:"links,omitempty"`
 }
 
-type RelarionshipMetric struct {
+type RelationshipMetric struct {
 	Data  *Event        `json:"data,omitempty"`
 	Links *GenericLinks `json:"links,omitempty"`
 }
