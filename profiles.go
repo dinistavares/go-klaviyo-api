@@ -215,7 +215,8 @@ func (service *ProfilesService) Query() *ProfileQueries {
 }
 
 //  ***********************************************************************************
-//  GET PROFILES (https://developers.klaviyo.com/en/reference/get_profiles)
+//  GET PROFILES 
+//  https://developers.klaviyo.com/en/reference/get_profiles
 //  ***********************************************************************************
 
 // Creates Query parameters for 'GetProfiles'
@@ -284,7 +285,8 @@ func (service *ProfilesService) GetProfiles(opts *GetProfilesQueryParams) (*GetP
 }
 
 //  ***********************************************************************************
-//  GET PROFILES BY ID (https://developers.klaviyo.com/en/reference/get_profile)
+//  GET PROFILES BY ID 
+//  https://developers.klaviyo.com/en/reference/get_profile
 //  ***********************************************************************************
 
 // Creates Query parameters for 'GetProfileByID'
@@ -340,7 +342,8 @@ func (service *ProfilesService) GetProfileByID(id string, opts *GetProfileByIDQu
 }
 
 //  ***********************************************************************************
-//  CREATE PROFILE (https://developers.klaviyo.com/en/reference/create_profile)
+//  CREATE PROFILE 
+//  https://developers.klaviyo.com/en/reference/create_profile
 //  ***********************************************************************************
 
 // Create a new profile. Reference: https://developers.klaviyo.com/en/reference/create_profile
@@ -363,7 +366,8 @@ func (service *ProfilesService) CreateProfile(profile *CreateUpdateProfile) (*Cr
 }
 
 //  ***********************************************************************************
-//  UPDATE PROFILE (https://developers.klaviyo.com/en/reference/update_profile)
+//  UPDATE PROFILE 
+//  https://developers.klaviyo.com/en/reference/update_profile
 //  ***********************************************************************************
 
 // Create a new profile. Reference: https://developers.klaviyo.com/en/reference/update_profile
@@ -386,7 +390,8 @@ func (service *ProfilesService) UpdateProfile(id string, profile *CreateUpdatePr
 }
 
 //  ***********************************************************************************
-//  CREATE OR UPDATE PROFILE (https://developers.klaviyo.com/en/reference/create_or_update_profile)
+//  CREATE OR UPDATE PROFILE
+// 	https://developers.klaviyo.com/en/reference/create_or_update_profile
 //  ***********************************************************************************
 
 // Create a new profile. Reference: https://developers.klaviyo.com/en/reference/create_or_update_profile
@@ -409,7 +414,8 @@ func (service *ProfilesService) CreateOrUpdateProfile(profile *CreateUpdateProfi
 }
 
 //  ***********************************************************************************
-//  GET PROFILE LISTS (https://developers.klaviyo.com/en/reference/get_profile_lists)
+//  GET PROFILE LISTS
+// 	https://developers.klaviyo.com/en/reference/get_profile_lists
 //  ***********************************************************************************
 
 // Creates Query parameters for 'GetProfileLists'
@@ -444,7 +450,8 @@ func (service *ProfilesService) GetProfileLists(id string, opts *GetProfileLists
 }
 
 //  ***********************************************************************************
-//  GET PROFILE SEGMENTS (https://developers.klaviyo.com/en/reference/get_profile_segments)
+//  GET PROFILE SEGMENTS 
+//  https://developers.klaviyo.com/en/reference/get_profile_segments
 //  ***********************************************************************************
 
 // Creates Query parameters for 'GetProfileSegments'

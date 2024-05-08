@@ -94,7 +94,8 @@ func (service *EventsService) Query() *EventQueries {
 }
 
 //  ***********************************************************************************
-//  GET EVENTS (https://developers.klaviyo.com/en/reference/get_events)
+//  GET EVENTS 
+//  https://developers.klaviyo.com/en/reference/get_events
 //  ***********************************************************************************
 
 // Creates Query parameters for 'GetEvents'
@@ -168,7 +169,8 @@ func (service *EventsService) GetEvents(opts *GetEventsQueryParams) (*GetEventsR
 }
 
 //  ***********************************************************************************
-//  GET EVENT (https://developers.klaviyo.com/en/reference/get_event)
+//  GET EVENT 
+//  https://developers.klaviyo.com/en/reference/get_event
 //  ***********************************************************************************
 
 // Creates Query parameters for 'NewGetEventByID'
@@ -224,7 +226,8 @@ func (service *EventsService) GetEventByID(id string, opts *GetEventByIDQueryPar
 }
 
 //  ***********************************************************************************
-//  CREATE EVENTS (https://developers.klaviyo.com/en/reference/create_events)
+//  CREATE EVENTS 
+//  https://developers.klaviyo.com/en/reference/create_events
 //  ***********************************************************************************
 
 // Sets new event metric
