@@ -57,6 +57,7 @@ type Client struct {
 
 	Profiles *ProfilesService
 	Events   *EventsService
+	Lists    *ListsService
 }
 
 type service struct {
@@ -122,6 +123,7 @@ func NewWithConfig(config ClientConfig) *Client {
 	// Map services
 	client.Profiles = &ProfilesService{client: client}
 	client.Events = &EventsService{client: client}
+	client.Lists = &ListsService{client: client}
 
 	return client
 }
