@@ -90,5 +90,6 @@ type RelationshipSegments struct {
 }
 
 type RelationshipTags struct {
-	Links *GenericLinks `json:"links,omitempty"`
+	Tags  *[]GenericRelationshipData `json:"data,omitempty"`
+	Links *GenericLinks              `json:"links,omitempty"`
 }

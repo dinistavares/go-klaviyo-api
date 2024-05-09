@@ -32,3 +32,7 @@ func (f queryFields) setEventFields(values []string) {
 func (f queryFields) setMetricFields(values []string) {
 	f.set("metric", values)
 }
+
+func (f queryFields) setTagFields(values []string) {
+	f.set("tag", values)
+}
