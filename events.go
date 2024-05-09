@@ -9,14 +9,14 @@ import (
 type EventsService service
 
 type GetEventsResponse struct {
-	Data     *[]Event          `json:"data,omitempty"`
-	Links    *GenericLinks     `json:"links,omitempty"`
-	Included *[]EventsIncluded `json:"included,omitempty"`
+	Data     *[]Event           `json:"data,omitempty"`
+	Links    *GenericLinks      `json:"links,omitempty"`
+	Included *[]GenericIncluded `json:"included,omitempty"`
 }
 
 type GetEventByIDResponse struct {
-	Data     *Event            `json:"data,omitempty"`
-	Included *[]EventsIncluded `json:"included,omitempty"`
+	Data     *Event             `json:"data,omitempty"`
+	Included *[]GenericIncluded `json:"included,omitempty"`
 }
 
 type CreateEventCard struct {
@@ -68,14 +68,6 @@ type EventAttributes struct {
 	UUID            string      `json:"uuid,omitempty"`
 }
 
-type EventsIncluded struct {
-	Type          string         `json:"type,omitempty"`
-	ID            string         `json:"id,omitempty"`
-	Attributes    *interface{}   `json:"attributes,omitempty"`
-	Links         *GenericLinks  `json:"links,omitempty"`
-	RelationShips *Relationships `json:"relationships,omitempty"`
-}
-
 type EventQueries struct{}
 
 // Query parameters for 'GetEvents' method.
@@ -94,7 +86,7 @@ func (service *EventsService) Query() *EventQueries {
 }
 
 //  ***********************************************************************************
-//  GET EVENTS 
+//  GET EVENTS
 //  https://developers.klaviyo.com/en/reference/get_events
 //  ***********************************************************************************
 
@@ -169,7 +161,7 @@ func (service *EventsService) GetEvents(opts *GetEventsQueryParams) (*GetEventsR
 }
 
 //  ***********************************************************************************
-//  GET EVENT 
+//  GET EVENT
 //  https://developers.klaviyo.com/en/reference/get_event
 //  ***********************************************************************************
 
@@ -226,7 +218,7 @@ func (service *EventsService) GetEventByID(id string, opts *GetEventByIDQueryPar
 }
 
 //  ***********************************************************************************
-//  CREATE EVENTS 
+//  CREATE EVENTS
 //  https://developers.klaviyo.com/en/reference/create_events
 //  ***********************************************************************************
 
@@ -238,7 +230,7 @@ func (event *CreateEventCard) SetEventMetric(name string, service string) {
 		Data: &CreateEventAttributesMetricData{
 			Type: "metric",
 			Attributes: &CreateEventAttributesMetricDataAttributes{
-				Name: name,
+				Name:    name,
 				Service: service,
 			},
 		},

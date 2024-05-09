@@ -11,7 +11,7 @@ type GetProfileRelationShipsGenericResponse struct {
 //  https://developers.klaviyo.com/en/reference/get_profile_relationships_lists
 //  ***********************************************************************************
 
-// Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_profile_relationships_lists
+// Get profile relationships lists. Reference: https://developers.klaviyo.com/en/reference/get_profile_relationships_lists
 func (service *ProfilesService) GetProfileRelationshipsLists(id string) (*GetProfileRelationShipsGenericResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles/%s/relationships/lists", ApiTypePrivate, id)
 
@@ -32,7 +32,7 @@ func (service *ProfilesService) GetProfileRelationshipsLists(id string) (*GetPro
 //  https://developers.klaviyo.com/en/reference/get_profile_relationships_segments
 //  ***********************************************************************************
 
-// Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_profile_relationships_segments
+// Get profile relationships segments. Reference: https://developers.klaviyo.com/en/reference/get_profile_relationships_segments
 func (service *ProfilesService) GetProfileRelationshipsSegments(id string) (*GetProfileRelationShipsGenericResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles/%s/relationships/segments", ApiTypePrivate, id)
 

@@ -8,3 +8,11 @@ type GenericLinks struct {
 	Next    string `json:"next,omitempty"`
 	Related string `json:"related,omitempty"`
 }
+
+type GenericIncluded struct {
+	Type          string         `json:"type,omitempty"`
+	ID            string         `json:"id,omitempty"`
+	Attributes    *interface{}   `json:"attributes,omitempty"`
+	Links         *GenericLinks  `json:"links,omitempty"`
+	RelationShips *Relationships `json:"relationships,omitempty"`
+}

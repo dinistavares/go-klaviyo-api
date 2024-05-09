@@ -320,7 +320,7 @@ func (p GetProfileByIDQueryParams) SetSegmentFields(values []string) {
 	p.setValues(fields)
 }
 
-// Set sort for for 'GetProfiles' method.
+// Set include for for 'GetProfiles' method.
 func (p GetProfileByIDQueryParams) Include(values []string) {
 	p.include(values)
 }
