@@ -19,13 +19,13 @@ type GetProfileByIDResponse struct {
 }
 
 type GetProfileListsResponse struct {
-	Data  *[]ProfileList `json:"data,omitempty"`
-	Links *GenericLinks  `json:"links,omitempty"`
+	Data  *[]List       `json:"data,omitempty"`
+	Links *GenericLinks `json:"links,omitempty"`
 }
 
 type GetProfileSegmentsResponse struct {
-	Data  *[]ProfileSegments `json:"data,omitempty"`
-	Links *GenericLinks      `json:"links,omitempty"`
+	Data  *[]Segment    `json:"data,omitempty"`
+	Links *GenericLinks `json:"links,omitempty"`
 }
 
 type CreateUpdateProfile struct {
@@ -157,38 +157,6 @@ type ProfileIncluded struct {
 	Links      *GenericLinks              `json:"links,omitempty"`
 }
 
-type ProfileList struct {
-	Type          string                 `json:"type,omitempty"`
-	ID            string                 `json:"id,omitempty"`
-	Attributes    *ProfileListAttributes `json:"attributes,omitempty"`
-	Links         *GenericLinks          `json:"links,omitempty"`
-	Relationships *Relationships         `json:"relationships,omitempty"`
-}
-
-type ProfileListAttributes struct {
-	Name         string `json:"name,omitempty"`
-	Created      string `json:"created,omitempty"`
-	Updated      string `json:"updated,omitempty"`
-	OptInProcess string `json:"opt_in_process,omitempty"`
-}
-
-type ProfileSegments struct {
-	Type          string                    `json:"type,omitempty"`
-	ID            string                    `json:"id,omitempty"`
-	Attributes    *ProfileSegmentAttributes `json:"attributes,omitempty"`
-	Links         *GenericLinks             `json:"links,omitempty"`
-	Relationships *Relationships            `json:"relationships,omitempty"`
-}
-
-type ProfileSegmentAttributes struct {
-	Name         string `json:"name,omitempty"`
-	Created      string `json:"created,omitempty"`
-	Updated      string `json:"updated,omitempty"`
-	IsActive     bool   `json:"is_active,omitempty"`
-	IsProcessing bool   `json:"is_processing,omitempty"`
-	IsStarred    bool   `json:"is_starred,omitempty"`
-}
-
 type ProfileQueries struct{}
 
 // Query parameters for 'GetProfiles' method.
@@ -215,7 +183,7 @@ func (service *ProfilesService) Query() *ProfileQueries {
 }
 
 //  ***********************************************************************************
-//  GET PROFILES 
+//  GET PROFILES
 //  https://developers.klaviyo.com/en/reference/get_profiles
 //  ***********************************************************************************
 
@@ -285,7 +253,7 @@ func (service *ProfilesService) GetProfiles(opts *GetProfilesQueryParams) (*GetP
 }
 
 //  ***********************************************************************************
-//  GET PROFILES BY ID 
+//  GET PROFILES BY ID
 //  https://developers.klaviyo.com/en/reference/get_profile
 //  ***********************************************************************************
 
@@ -342,7 +310,7 @@ func (service *ProfilesService) GetProfileByID(id string, opts *GetProfileByIDQu
 }
 
 //  ***********************************************************************************
-//  CREATE PROFILE 
+//  CREATE PROFILE
 //  https://developers.klaviyo.com/en/reference/create_profile
 //  ***********************************************************************************
 
@@ -366,7 +334,7 @@ func (service *ProfilesService) CreateProfile(profile *CreateUpdateProfile) (*Cr
 }
 
 //  ***********************************************************************************
-//  UPDATE PROFILE 
+//  UPDATE PROFILE
 //  https://developers.klaviyo.com/en/reference/update_profile
 //  ***********************************************************************************
 
@@ -450,7 +418,7 @@ func (service *ProfilesService) GetProfileLists(id string, opts *GetProfileLists
 }
 
 //  ***********************************************************************************
-//  GET PROFILE SEGMENTS 
+//  GET PROFILE SEGMENTS
 //  https://developers.klaviyo.com/en/reference/get_profile_segments
 //  ***********************************************************************************
 
