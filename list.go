@@ -29,6 +29,10 @@ type ListAttributes struct {
 	Updated      *time.Time `json:"updated,omitempty"`
 }
 
+type RemoveProfiles struct {
+	Data *[]Profile `json:"data,omitempty"`
+}
+
 type ListQueries struct{}
 
 // Query parameters for 'GetLists' method.
@@ -101,4 +105,37 @@ func (service *ListsService) GetLists(opts *GetListsQueryParams) (*GetListsRespo
 	}
 
 	return lists, response, nil
+}
+
+//  ***********************************************************************************
+//  REMOVE PROFILE FROM LIST
+//  https://developers.klaviyo.com/en/reference/delete_list_relationships
+//  ***********************************************************************************
+
+// Get lists. Reference: https://developers.klaviyo.com/en/reference/delete_list_relationships
+func (service *ListsService) RemoveProfileFromList(listID string, profiles *RemoveProfiles) (*Response, error) {
+	_url := fmt.Sprintf("%s/lists/%s/relationships/profiles", ApiTypePrivate, listID)
+
+	service.setRemoveProfilesType(profiles)
+
+	req, _ := service.client.NewRequest("DELETE", _url, nil, profiles)
+
+	response, err := service.client.Do(req, nil)
+
+	if err != nil {
+		return response, err
+	}
+
+	return response, nil
+}
+
+// Sets Profile.Type to 'profile' if it is not set in any RemoveProfile
+func (service *ListsService) setRemoveProfilesType(profiles *RemoveProfiles) {
+	if profiles != nil && profiles.Data != nil {
+		for i, profile := range *profiles.Data {
+			if profile.Type == "" {
+				(*profiles.Data)[i].Type = "profile"
+			}
+		}
+	}
 }
