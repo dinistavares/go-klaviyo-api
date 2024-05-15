@@ -36,3 +36,7 @@ func (f queryFields) setMetricFields(values []string) {
 func (f queryFields) setTagFields(values []string) {
 	f.set("tag", values)
 }
+
+func (f queryFields) setWebhookFields(values []string) {
+	f.set("webhook", values)
+}

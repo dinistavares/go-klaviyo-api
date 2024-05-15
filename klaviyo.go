@@ -59,6 +59,7 @@ type Client struct {
 	Events   *EventsService
 	Lists    *ListsService
 	Segments *SegmentsService
+	Webhooks *WebhooksService
 }
 
 type service struct {
@@ -126,6 +127,7 @@ func NewWithConfig(config ClientConfig) *Client {
 	client.Events = &EventsService{client: client}
 	client.Lists = &ListsService{client: client}
 	client.Segments = &SegmentsService{client: client}
+	client.Webhooks = &WebhooksService{client: client}
 
 	return client
 }

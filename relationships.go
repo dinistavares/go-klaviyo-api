@@ -93,3 +93,7 @@ type RelationshipTags struct {
 	Tags  *[]GenericRelationshipData `json:"data,omitempty"`
 	Links *GenericLinks              `json:"links,omitempty"`
 }
+
+type RelationshipWebhookTopics struct {
+	Links *GenericLinks              `json:"links,omitempty"`
+}
