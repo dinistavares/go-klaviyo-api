@@ -29,7 +29,7 @@ type ListAttributes struct {
 	Updated      *time.Time `json:"updated,omitempty"`
 }
 
-type RemoveProfiles struct {
+type AddRemoveProfiles struct {
 	Data *[]Profile `json:"data,omitempty"`
 }
 
@@ -108,15 +108,37 @@ func (service *ListsService) GetLists(opts *GetListsQueryParams) (*GetListsRespo
 }
 
 //  ***********************************************************************************
+//  ADD PROFILE TO LIST
+//  https://developers.klaviyo.com/en/reference/create_list_relationships
+//  ***********************************************************************************
+
+// Add profile to lists. Reference: https://developers.klaviyo.com/en/reference/create_list_relationships
+func (service *ListsService) AddProfileToList(listID string, profiles *AddRemoveProfiles) (*Response, error) {
+	_url := fmt.Sprintf("%s/lists/%s/relationships/profiles", ApiTypePrivate, listID)
+
+	service.setAddRemoveProfilesType(profiles)
+
+	req, _ := service.client.NewRequest("POST", _url, nil, profiles)
+
+	response, err := service.client.Do(req, nil)
+
+	if err != nil {
+		return response, err
+	}
+
+	return response, nil
+}
+
+//  ***********************************************************************************
 //  REMOVE PROFILE FROM LIST
 //  https://developers.klaviyo.com/en/reference/delete_list_relationships
 //  ***********************************************************************************
 
-// Get lists. Reference: https://developers.klaviyo.com/en/reference/delete_list_relationships
-func (service *ListsService) RemoveProfileFromList(listID string, profiles *RemoveProfiles) (*Response, error) {
+// Remove profile from list. Reference: https://developers.klaviyo.com/en/reference/delete_list_relationships
+func (service *ListsService) RemoveProfileFromList(listID string, profiles *AddRemoveProfiles) (*Response, error) {
 	_url := fmt.Sprintf("%s/lists/%s/relationships/profiles", ApiTypePrivate, listID)
 
-	service.setRemoveProfilesType(profiles)
+	service.setAddRemoveProfilesType(profiles)
 
 	req, _ := service.client.NewRequest("DELETE", _url, nil, profiles)
 
@@ -130,7 +152,7 @@ func (service *ListsService) RemoveProfileFromList(listID string, profiles *Remo
 }
 
 // Sets Profile.Type to 'profile' if it is not set in any RemoveProfile
-func (service *ListsService) setRemoveProfilesType(profiles *RemoveProfiles) {
+func (service *ListsService) setAddRemoveProfilesType(profiles *AddRemoveProfiles) {
 	if profiles != nil && profiles.Data != nil {
 		for i, profile := range *profiles.Data {
 			if profile.Type == "" {
