@@ -95,5 +95,6 @@ type RelationshipTags struct {
 }
 
 type RelationshipWebhookTopics struct {
-	Links *GenericLinks              `json:"links,omitempty"`
+	WebhookTopics *WebhookTopics `json:"webhook-topics,omitempty"`
+	Links         *GenericLinks  `json:"links,omitempty"`
 }
