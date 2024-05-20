@@ -95,8 +95,8 @@ type ProfileAttributesSubscriptionsGenericMarketing struct {
 
 type ProfileAttributesSubscriptionsEmailMarketing struct {
 	CanReceiveEmailMarketing bool                                                            `json:"can_receive_email_marketing,omitempty"`
+	DoubleOptin              bool                                                          `json:"double_optin,omitempty"`
 	CustomMethodDetail       string                                                          `json:"custom_method_detail,omitempty"`
-	DoubleOptin              string                                                          `json:"double_optin,omitempty"`
 	Suppression              *[]ProfileAttributesSubscriptionsEmailMarketingSuppression      `json:"suppression,omitempty"`
 	ListSuppressions         *[]ProfileAttributesSubscriptionsEmailMarketingListSuppressions `json:"list_suppressions,omitempty"`
 	ProfileAttributesSubscriptionsGenericMarketing
