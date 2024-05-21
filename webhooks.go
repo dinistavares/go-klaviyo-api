@@ -62,7 +62,7 @@ type WebhookAttributes struct {
 	Name        string     `json:"name,omitempty"`
 	Description string     `json:"description,omitempty"`
 	EndpointURL string     `json:"endpoint_url,omitempty"`
-	Enabled     bool       `json:"enabled,omitempty"`
+	Enabled     bool       `json:"enabled"`
 	CreatedAt   *time.Time `json:"created_at,omitempty"`
 	UpdatedAt   *time.Time `json:"updated_at,omitempty"`
 }
