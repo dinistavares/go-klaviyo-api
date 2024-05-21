@@ -17,14 +17,9 @@ type Metric struct {
 }
 
 type MetricIntegration struct {
-	Category *MetricCategory `json:"category,omitempty"`
-	ID       string          `json:"id,omitempty"`
-	Key      string          `json:"key,omitempty"`
-	Name     string          `json:"name,omitempty"`
-	Object   string          `json:"object,omitempty"`
-}
-
-type MetricCategory struct {
-	Category string `json:"category,omitempty"`
-	ID       int    `json:"id,omitempty"`
+	Category *interface{} `json:"category,omitempty"`
+	ID       string       `json:"id,omitempty"`
+	Key      string       `json:"key,omitempty"`
+	Name     string       `json:"name,omitempty"`
+	Object   string       `json:"object,omitempty"`
 }
