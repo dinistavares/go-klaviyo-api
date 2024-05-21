@@ -14,7 +14,8 @@ import (
 const (
 	libraryVersion               = "1.1"
 	defaultAuthHeaderName        = "Authorization"
-	defaultAuthPrefix            = "Bearer"
+	defaultOAuthPrefix           = "Bearer"
+	defaultAuthPrefix            = "Klaviyo-API-Key"
 	defaultRestEndpointURL       = "https://a.klaviyo.com"
 	defaultRestAPIRevision       = "2024-02-15"
 	acceptedContentType          = "application/json"
@@ -136,11 +137,16 @@ func New() *Client {
 	return NewWithConfig(ClientConfig{})
 }
 
-func (client *Client) Authenticate(accessToken string) {
+func (client *Client) Authenticate(accessToken string, isOauth ...bool) {
 	client.auth.HeaderName = defaultAuthHeaderName
-	client.auth.Prefix = defaultAuthPrefix
 	client.auth.AccessToken = accessToken
 	client.auth.Available = true
+
+	if (len(isOauth) > 0 && isOauth[0]) {
+		client.auth.Prefix = defaultOAuthPrefix
+	} else {
+		client.auth.Prefix = defaultAuthPrefix
+	}
 }
 
 // NewRequest creates an API request
