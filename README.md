@@ -21,23 +21,23 @@ import "github.com/dinistavares/go-klaviyo-api"
 Create a new Klaviyo Client and use the provided services.
 
 ```go
-	client := klaviyo.New()
+  client := klaviyo.New()
 
   // List Klaviyo preferences
-	profiles, _, err := s.client.Profiles.GetProfiles(nil)
+  profiles, _, err := client.Profiles.GetProfiles(nil)
 ```
 
 Use a specific API revision.
 
 ```go
-	config := klaviyo.ClientConfig{
-		RestEndpointRevision: "2024-02-15.pre",
-	}
+  config := klaviyo.ClientConfig{
+    RestEndpointRevision: "2024-02-15.pre",
+  }
 
-	client := klaviyo.NewWithConfig(config)
+  client := klaviyo.NewWithConfig(config)
 
   // List Klaviyo preferences
-	profiles, _, err := s.client.Profiles.GetProfiles(nil)
+  profiles, _, err := client.Profiles.GetProfiles(nil)
 ```
 
 ## Authenticate
@@ -50,10 +50,10 @@ import (
 func main(){
   accessToken := "xxxxxxx"
 
-	client := klaviyo.New()
-	client.Authenticate(accessToken)
+  client := klaviyo.New()
+  client.Authenticate(accessToken)
 
   // List Klaviyo preferences
-	profiles, _, err := s.client.Profiles.GetProfiles(nil)
+  profiles, _, err := client.Profiles.GetProfiles(nil)
 }
 ```
