@@ -137,15 +137,15 @@ func New() *Client {
 	return NewWithConfig(ClientConfig{})
 }
 
-func (client *Client) Authenticate(accessToken string, isOauth ...bool) {
+func (client *Client) Authenticate(accessToken string) {
 	client.auth.HeaderName = defaultAuthHeaderName
 	client.auth.AccessToken = accessToken
 	client.auth.Available = true
 
-	if (len(isOauth) > 0 && isOauth[0]) {
-		client.auth.Prefix = defaultOAuthPrefix
-	} else {
+	if (len(accessToken) > 2 && accessToken[0:3] == "pk_") {
 		client.auth.Prefix = defaultAuthPrefix
+	} else {
+		client.auth.Prefix = defaultOAuthPrefix
 	}
 }
 
