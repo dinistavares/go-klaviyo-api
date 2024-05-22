@@ -59,6 +59,7 @@ type Client struct {
 	Profiles *ProfilesService
 	Events   *EventsService
 	Lists    *ListsService
+	Metrics  *MetricsService
 	Segments *SegmentsService
 	Webhooks *WebhooksService
 }
@@ -127,6 +128,7 @@ func NewWithConfig(config ClientConfig) *Client {
 	client.Profiles = &ProfilesService{client: client}
 	client.Events = &EventsService{client: client}
 	client.Lists = &ListsService{client: client}
+	client.Metrics = &MetricsService{client: client}
 	client.Segments = &SegmentsService{client: client}
 	client.Webhooks = &WebhooksService{client: client}
 
@@ -142,7 +144,7 @@ func (client *Client) Authenticate(accessToken string) {
 	client.auth.AccessToken = accessToken
 	client.auth.Available = true
 
-	if (len(accessToken) > 2 && accessToken[0:3] == "pk_") {
+	if len(accessToken) > 2 && accessToken[0:3] == "pk_" {
 		client.auth.Prefix = defaultAuthPrefix
 	} else {
 		client.auth.Prefix = defaultOAuthPrefix
