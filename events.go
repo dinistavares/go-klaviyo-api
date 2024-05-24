@@ -2,7 +2,6 @@ package klaviyo
 
 import (
 	"fmt"
-	"time"
 )
 
 // Events service
@@ -34,7 +33,7 @@ type CreateEventAttributes struct {
 	Properties    interface{}                  `json:"properties,omitempty"`
 	Value         float64                      `json:"value,omitempty"`
 	ValueCurrency string                       `json:"value_currency,omitempty"`
-	Time          *time.Time                   `json:"time,omitempty"`
+	Time          string                       `json:"time,omitempty"`
 	Profile       *CreateUpdateProfile         `json:"profile,omitempty"`
 	Metric        *CreateEventAttributesMetric `json:"metric,omitempty"`
 }
@@ -64,7 +63,7 @@ type Event struct {
 type EventAttributes struct {
 	Timestamp       int         `json:"timestamp,omitempty"`
 	EventProperties interface{} `json:"event_properties,omitempty"`
-	Datetime        *time.Time  `json:"datetime,omitempty"`
+	Datetime        string      `json:"datetime,omitempty"`
 	UUID            string      `json:"uuid,omitempty"`
 }
 

@@ -60,16 +60,16 @@ type ProfileAttributes struct {
 }
 
 type ProfileAttributesLocation struct {
-	Address1  string `json:"address1,omitempty"`
-	Address2  string `json:"address2,omitempty"`
-	City      string `json:"city,omitempty"`
-	Country   string `json:"country,omitempty"`
-	Latitude  string `json:"latitude,omitempty"`
-	Longitude string `json:"longitude,omitempty"`
-	Region    string `json:"region,omitempty"`
-	Zip       string `json:"zip,omitempty"`
-	Timezone  string `json:"timezone,omitempty"`
-	IP        string `json:"ip,omitempty"`
+	Address1  string  `json:"address1,omitempty"`
+	Address2  string  `json:"address2,omitempty"`
+	City      string  `json:"city,omitempty"`
+	Country   string  `json:"country,omitempty"`
+	Region    string  `json:"region,omitempty"`
+	Zip       string  `json:"zip,omitempty"`
+	Timezone  string  `json:"timezone,omitempty"`
+	IP        string  `json:"ip,omitempty"`
+	Latitude  float64 `json:"latitude,omitempty"`
+	Longitude float64 `json:"longitude,omitempty"`
 }
 
 type ProfileAttributesSubscriptions struct {
@@ -95,7 +95,7 @@ type ProfileAttributesSubscriptionsGenericMarketing struct {
 
 type ProfileAttributesSubscriptionsEmailMarketing struct {
 	CanReceiveEmailMarketing bool                                                            `json:"can_receive_email_marketing,omitempty"`
-	DoubleOptin              bool                                                          `json:"double_optin,omitempty"`
+	DoubleOptin              bool                                                            `json:"double_optin,omitempty"`
 	CustomMethodDetail       string                                                          `json:"custom_method_detail,omitempty"`
 	Suppression              *[]ProfileAttributesSubscriptionsEmailMarketingSuppression      `json:"suppression,omitempty"`
 	ListSuppressions         *[]ProfileAttributesSubscriptionsEmailMarketingListSuppressions `json:"list_suppressions,omitempty"`
