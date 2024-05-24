@@ -68,8 +68,8 @@ type ProfileAttributesLocation struct {
 	Zip       string  `json:"zip,omitempty"`
 	Timezone  string  `json:"timezone,omitempty"`
 	IP        string  `json:"ip,omitempty"`
-	Latitude  float64 `json:"latitude,omitempty"`
-	Longitude float64 `json:"longitude,omitempty"`
+	Latitude  float32 `json:"latitude,omitempty"`
+	Longitude float32 `json:"longitude,omitempty"`
 }
 
 type ProfileAttributesSubscriptions struct {
