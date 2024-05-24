@@ -60,16 +60,16 @@ type ProfileAttributes struct {
 }
 
 type ProfileAttributesLocation struct {
-	Address1  string  `json:"address1,omitempty"`
-	Address2  string  `json:"address2,omitempty"`
-	City      string  `json:"city,omitempty"`
-	Country   string  `json:"country,omitempty"`
-	Region    string  `json:"region,omitempty"`
-	Zip       string  `json:"zip,omitempty"`
-	Timezone  string  `json:"timezone,omitempty"`
-	IP        string  `json:"ip,omitempty"`
-	Latitude  float32 `json:"latitude,omitempty"`
-	Longitude float32 `json:"longitude,omitempty"`
+	Address1  string      `json:"address1,omitempty"`
+	Address2  string      `json:"address2,omitempty"`
+	City      string      `json:"city,omitempty"`
+	Country   string      `json:"country,omitempty"`
+	Region    string      `json:"region,omitempty"`
+	Zip       string      `json:"zip,omitempty"`
+	Timezone  string      `json:"timezone,omitempty"`
+	IP        string      `json:"ip,omitempty"`
+	Latitude  interface{} `json:"latitude,omitempty"`
+	Longitude interface{} `json:"longitude,omitempty"`
 }
 
 type ProfileAttributesSubscriptions struct {
