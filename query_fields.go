@@ -13,8 +13,16 @@ func (f queryFields) set(key string, values []string) {
 	}
 }
 
+func (f queryFields) setEventFields(values []string) {
+	f.set("event", values)
+}
+
 func (f queryFields) setListFields(values []string) {
 	f.set("list", values)
+}
+
+func (f queryFields) setMetricFields(values []string) {
+	f.set("metric", values)
 }
 
 func (f queryFields) setProfileFields(values []string) {
@@ -23,14 +31,6 @@ func (f queryFields) setProfileFields(values []string) {
 
 func (f queryFields) setSegmentFields(values []string) {
 	f.set("segment", values)
-}
-
-func (f queryFields) setEventFields(values []string) {
-	f.set("event", values)
-}
-
-func (f queryFields) setMetricFields(values []string) {
-	f.set("metric", values)
 }
 
 func (f queryFields) setTagFields(values []string) {
