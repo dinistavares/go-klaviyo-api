@@ -13,6 +13,14 @@ func (f queryFields) set(key string, values []string) {
 	}
 }
 
+func (f queryFields) setCouponFields(values []string) {
+	f.set("coupon", values)
+}
+
+func (f queryFields) setCouponCodeFields(values []string) {
+	f.set("coupon-code", values)
+}
+
 func (f queryFields) setEventFields(values []string) {
 	f.set("event", values)
 }

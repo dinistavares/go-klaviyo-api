@@ -5,6 +5,7 @@ type Relationships struct {
 	AttributedEvent      *RelationShipAttributedEvent      `json:"attributed-event,omitempty"`
 	Campaign             *RelationShipCampaign             `json:"campaign,omitempty"`
 	CampaignMessage      *RelationShipCampaignMessage      `json:"campaign-message,omitempty"`
+	Coupon               *RelationShipCoupon               `json:"coupon,omitempty"`
 	Conversation         *RelationShipConversation         `json:"conversation,omitempty"`
 	Event                *RelationShipEvent                `json:"event,omitempty"`
 	Flow                 *RelationShipFlow                 `json:"flow,omitempty"`
@@ -26,6 +27,11 @@ type GenericRelationshipData struct {
 type RelationShipAttributions struct {
 	Data  *[]GenericRelationshipData `json:"data,omitempty"`
 	Links *GenericLinks              `json:"links,omitempty"`
+}
+
+type RelationShipCoupon struct {
+	Coupon *Coupon       `json:"data,omitempty"`
+	Links  *GenericLinks `json:"links,omitempty"`
 }
 
 type RelationShipAttributedEvent struct {
