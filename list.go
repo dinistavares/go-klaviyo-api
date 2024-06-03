@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// Events service
+// Lists service
 type ListsService service
 
 type GetListsResponse struct {

@@ -265,8 +265,7 @@ func (service *EventsService) CreateEvent(event *CreateEventCard) (*Response, er
 
 	req, _ := service.client.NewRequest("POST", _url, nil, event)
 
-	events := new(GetEventsResponse)
-	response, err := service.client.Do(req, events)
+	response, err := service.client.Do(req, nil)
 
 	if err != nil {
 		return response, err
