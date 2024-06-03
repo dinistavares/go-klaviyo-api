@@ -57,6 +57,29 @@ type CreateCouponAttributes struct {
 	Description string `json:"description,omitempty"`
 }
 
+type CreateCouponCodeCard struct {
+	Data *CreateCouponCode `json:"data,omitempty"`
+}
+
+type CreateCouponCode struct {
+	Type          string                         `json:"type,omitempty"`
+	Attributes    *CreateCouponCodeAttributes    `json:"attributes,omitempty"`
+	Relationships *CreateCouponCodeRelationships `json:"relationships,omitempty"`
+}
+
+type CreateCouponCodeAttributes struct {
+	UniqueCode string `json:"unique_code,omitempty"`
+	ExpiresAt  string `json:"expires_at,omitempty"`
+}
+
+type CreateCouponCodeRelationships struct {
+	Coupon *CreateCouponCodeRelationshipsCoupon `json:"coupon,omitempty"`
+}
+
+type CreateCouponCodeRelationshipsCoupon struct {
+	Data *Coupon `json:"data,omitempty"`
+}
+
 type CouponQueries struct{}
 
 // Query parameters for 'GetCoupons' method.
@@ -166,14 +189,14 @@ func (service *CouponsService) GetCouponByID(id string, opts *GetCouponsQueryPar
 
 // Sets new coupon external ID
 func (coupon *CreateCouponCard) SetCouponExternalID(externalID string) {
-	coupon.setEventDataAttributes()
+	coupon.setCouponDataAttributes()
 
 	coupon.Data.Attributes.ExternalID = externalID
 }
 
 // Sets new coupon description
 func (coupon *CreateCouponCard) SetCouponDescription(description string) {
-	coupon.setEventDataAttributes()
+	coupon.setCouponDataAttributes()
 
 	coupon.Data.Attributes.Description = description
 }
@@ -183,7 +206,7 @@ func (service *CouponsService) CreateCoupon(coupon *CreateCouponCard) (*Response
 	_url := fmt.Sprintf("%s/coupons", ApiTypePrivate)
 
 	// Ensure type is set to "coupon" if empty
-	service.setCreateUpdatedType(coupon)
+	service.setCreateUpdatedCouponType(coupon)
 
 	req, _ := service.client.NewRequest("POST", _url, nil, coupon)
 
@@ -197,14 +220,14 @@ func (service *CouponsService) CreateCoupon(coupon *CreateCouponCard) (*Response
 }
 
 // Sets CreateCoupon.Type to 'coupon' if it is not set
-func (service *CouponsService) setCreateUpdatedType(coupon *CreateCouponCard) {
+func (service *CouponsService) setCreateUpdatedCouponType(coupon *CreateCouponCard) {
 	if coupon != nil && coupon.Data != nil && coupon.Data.Type == "" {
 		coupon.Data.Type = "coupon"
 	}
 }
 
 // Ensure coupon data and attribute pointers are created
-func (coupon *CreateCouponCard) setEventDataAttributes() {
+func (coupon *CreateCouponCard) setCouponDataAttributes() {
 	if coupon.Data == nil {
 		coupon.Data = &CreateCoupon{}
 	}
@@ -274,4 +297,84 @@ func (service *CouponsService) GetCouponCodes(opts *GetCouponCodesQueryParams) (
 	}
 
 	return couponCodes, response, nil
+}
+
+//  ***********************************************************************************
+//  CREATE COUPON CODE
+//  https://developers.klaviyo.com/en/reference/create_coupon_code
+//  ***********************************************************************************
+
+// Sets new coupon unique code
+func (coupon *CreateCouponCodeCard) SetCouponUniqueCode(code string) {
+	coupon.setCouponCodeDataAttributes()
+
+	coupon.Data.Attributes.UniqueCode = code
+}
+
+// Sets new coupon expire
+func (coupon *CreateCouponCodeCard) SetCouponExpire(expire string) {
+	coupon.setCouponCodeDataAttributes()
+
+	coupon.Data.Attributes.ExpiresAt = expire
+}
+
+// Sets new coupon expire
+func (coupon *CreateCouponCodeCard) SetCouponRelationshipID(id string) {
+	coupon.setCouponCodeDataRelationship()
+
+	coupon.Data.Relationships.Coupon.Data.ID = id
+}
+
+// Create coupon. Reference: https://developers.klaviyo.com/en/reference/create_coupon_code
+func (service *CouponsService) CreateCouponCode(couponCode *CreateCouponCodeCard) (*Response, error) {
+	_url := fmt.Sprintf("%s/coupon-codes", ApiTypePrivate)
+
+	// Ensure type is set to "coupon" if empty
+	service.setCreateUpdatedCouponCodeType(couponCode)
+
+	req, _ := service.client.NewRequest("POST", _url, nil, couponCode)
+
+	response, err := service.client.Do(req, nil)
+
+	if err != nil {
+		return response, err
+	}
+
+	return response, nil
+}
+
+// Sets CreateCouponCode.Type to 'coupon-code' if it is not set
+func (service *CouponsService) setCreateUpdatedCouponCodeType(coupon *CreateCouponCodeCard) {
+	if coupon != nil && coupon.Data != nil && coupon.Data.Type == "" {
+		coupon.Data.Type = "coupon-code"
+	}
+}
+
+// Ensure coupon code data and attribute pointers are created
+func (coupon *CreateCouponCodeCard) setCouponCodeDataAttributes() {
+	if coupon.Data == nil {
+		coupon.Data = &CreateCouponCode{}
+	}
+
+	if coupon.Data.Attributes == nil {
+		coupon.Data.Attributes = &CreateCouponCodeAttributes{}
+	}
+
+}
+
+// Ensure coupon code data and relationtionship pointers are created
+func (coupon *CreateCouponCodeCard) setCouponCodeDataRelationship() {
+	if coupon.Data == nil {
+		coupon.Data = &CreateCouponCode{}
+	}
+
+	if (coupon.Data.Relationships == nil) {
+		coupon.Data.Relationships = &CreateCouponCodeRelationships{
+			Coupon: &CreateCouponCodeRelationshipsCoupon{
+				Data: &Coupon{
+					Type: "coupon",
+				},
+			},
+		}
+	}
 }
