@@ -164,6 +164,33 @@ func (service *WebhooksService) GetWebhookByID(id string, opts *GetWebhookByIDQu
 //  https://developers.klaviyo.com/en/reference/create_webhook_subscription
 //  ***********************************************************************************
 
+// Sets new webhook attributes
+func (webhook *CreateWebhookCard) SetWebhookAttributes(attributes *CreateWebhookAttributes) {
+	webhook.setCreateWebhookData()
+
+	webhook.Data.Attributes = attributes
+}
+
+// Sets new webhook topics
+func (webhook *CreateWebhookCard) SetWebhookTopics(topicIDs *[]string) {
+	webhook.setCreateWebhookRelationships()
+
+	topics := []WebhookTopic{}
+
+	if topicIDs != nil {
+		for _, id := range *topicIDs {
+			topic := WebhookTopic{
+				Type: "webhook-topic",
+				ID:   id,
+			}
+
+			topics = append(topics, topic)
+		}
+	}
+
+	webhook.Data.Relationships.WebhookTopics.Data = &topics
+}
+
 // Create webhook. Reference: https://developers.klaviyo.com/en/reference/create_webhook_subscription
 func (service *WebhooksService) CreateWebhook(webhook *CreateWebhookCard) (*CreateWebhookResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/webhooks", ApiTypePrivate)
@@ -187,6 +214,24 @@ func (service *WebhooksService) CreateWebhook(webhook *CreateWebhookCard) (*Crea
 func (service *WebhooksService) setCreateType(webhook *CreateWebhookCard) {
 	if webhook != nil && webhook.Data != nil && webhook.Data.Type == "" {
 		webhook.Data.Type = "webhook"
+	}
+}
+
+// Ensure webhook data pointers are created
+func (webhook *CreateWebhookCard) setCreateWebhookData() {
+	if webhook.Data == nil {
+		webhook.Data = &CreateWebhook{}
+	}
+}
+
+// Ensure webhook data pointers are created
+func (webhook *CreateWebhookCard) setCreateWebhookRelationships() {
+	webhook.setCreateWebhookData()
+
+	if webhook.Data.Relationships == nil {
+		webhook.Data.Relationships = &RelationshipWebhookTopics{
+			WebhookTopics: &WebhookTopics{},
+		}
 	}
 }
 
