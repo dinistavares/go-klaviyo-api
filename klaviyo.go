@@ -56,6 +56,7 @@ type Client struct {
 	auth    *auth
 	baseURL *url.URL
 
+	Accounts      *AccountsService
 	Conversations *ConversationsService
 	Coupons       *CouponsService
 	Events        *EventsService
@@ -127,6 +128,7 @@ func NewWithConfig(config ClientConfig) *Client {
 	client := &Client{config: &config, client: config.HttpClient, auth: &auth{}, baseURL: baseURL}
 
 	// Map services
+	client.Accounts = &AccountsService{client: client}
 	client.Conversations = &ConversationsService{client: client}
 	client.Coupons = &CouponsService{client: client}
 	client.Events = &EventsService{client: client}

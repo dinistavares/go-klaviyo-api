@@ -13,6 +13,10 @@ func (f queryFields) set(key string, values []string) {
 	}
 }
 
+func (f queryFields) setAccountFields(values []string) {
+	f.set("account", values)
+}
+
 func (f queryFields) setCouponFields(values []string) {
 	f.set("coupon", values)
 }
