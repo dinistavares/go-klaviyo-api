@@ -50,6 +50,7 @@ type RelationShipCampaignMessage struct {
 }
 
 type RelationShipConversation struct {
+	Data  *Conversation `json:"data,omitempty"`
 	Links *GenericLinks `json:"links,omitempty"`
 }
 

@@ -236,6 +236,11 @@ func (p GetProfilesQueryParams) Filter(filter QueryFilter) {
 	p.filter(filter)
 }
 
+// Set include for for 'GetProfiles' method.
+func (p GetProfilesQueryParams) Include(include QueryFilter) {
+	p.include(include)
+}
+
 // Get Profiles. Reference: https://developers.klaviyo.com/en/reference/get_profiles
 func (service *ProfilesService) GetProfiles(opts *GetProfilesQueryParams) (*GetProfilesResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles", ApiTypePrivate)
