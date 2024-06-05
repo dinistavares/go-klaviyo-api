@@ -67,6 +67,28 @@ type WebhookAttributes struct {
 	UpdatedAt   *time.Time `json:"updated_at,omitempty"`
 }
 
+type WebhookRequest struct {
+	Meta *WebhookRequestMeta   `json:"meta,omitempty"`
+	Data *[]WebhookRequestData `json:"data,omitempty"`
+}
+
+type WebhookRequestMeta struct {
+	Timestamp        string `json:"timestamp,omitempty"`
+	KlaviyoWebhookID string `json:"klaviyo_webhook_id,omitempty"`
+	KlaviyoAccountID string `json:"klaviyo_account_id,omitempty"`
+	Version          string `json:"version,omitempty"`
+}
+
+type WebhookRequestData struct {
+	Topic      string                 `json:"topic,omitempty"`
+	ExternalID string                 `json:"external_id,omitempty"`
+	Payload    *WebhookRequestPayload `json:"payload,omitempty"`
+}
+
+type WebhookRequestPayload struct {
+	Data *Event `json:"data,omitempty"`
+}
+
 type WebhookQueries struct{}
 
 // Query parameters for 'GetWebhooks' method.
