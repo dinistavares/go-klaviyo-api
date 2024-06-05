@@ -56,6 +56,7 @@ type Client struct {
 	auth    *auth
 	baseURL *url.URL
 
+	Accounts *AccountsService
 	Coupons  *CouponsService
 	Events   *EventsService
 	Lists    *ListsService
@@ -126,6 +127,7 @@ func NewWithConfig(config ClientConfig) *Client {
 	client := &Client{config: &config, client: config.HttpClient, auth: &auth{}, baseURL: baseURL}
 
 	// Map services
+	client.Accounts = &AccountsService{client: client}
 	client.Coupons = &CouponsService{client: client}
 	client.Events = &EventsService{client: client}
 	client.Lists = &ListsService{client: client}
@@ -292,6 +294,7 @@ func checkResponse(response *http.Response) error {
 	errorResponse := &GenericResponse{Response: response}
 
 	data, err := io.ReadAll(response.Body)
+
 	if err == nil && data != nil {
 		_ = json.Unmarshal(data, errorResponse)
 	}
