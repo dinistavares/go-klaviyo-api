@@ -61,16 +61,16 @@ func (conversationMessage *CreateConversationMessageCard) SetConversationMessage
 }
 
 // Create conversation message. Reference: (TODO: add reference)
-func (service *ConversationsService) CreateConverstaionMessage(converationMessage *CreateConversationMessageCard) (*ConversationMessageResponse, *Response, error) {
+func (service *ConversationsService) CreateConverstaionMessage(message *CreateConversationMessageCard) (*ConversationMessageResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/conversation-messages", ApiTypePrivate)
 
 	// Ensure type is set to "conversation-message" if empty
-	service.setCreateConversationMessageType(converationMessage)
+	service.setCreateConversationMessageType(message)
 
-	req, _ := service.client.NewRequest("POST", _url, nil, converationMessage)
+	req, _ := service.client.NewRequest("POST", _url, nil, message)
 
 	conversationMessage := new(ConversationMessageResponse)
-	response, err := service.client.Do(req, converationMessage)
+	response, err := service.client.Do(req, conversationMessage)
 
 	if err != nil {
 		return conversationMessage, response, err
