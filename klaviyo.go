@@ -130,7 +130,7 @@ func NewWithConfig(config ClientConfig) *Client {
 
 	// Map services
 	client.Accounts = &AccountsService{service{client: client}}
-	client.Conversations = &ConversationsService{client: client}
+	client.Conversations = &ConversationsService{service{client: client}}
 	client.Coupons = &CouponsService{service{client: client}}
 	client.Events = &EventsService{service{client: client}}
 	client.Lists = &ListsService{service{client: client}}

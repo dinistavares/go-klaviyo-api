@@ -5,7 +5,9 @@ import (
 )
 
 // Conversations service
-type ConversationsService service
+type ConversationsService struct {
+	service
+}
 
 type Conversation struct {
 	Type string `json:"type,omitempty"`
@@ -67,7 +69,7 @@ func (service *ConversationsService) CreateConverstaionMessage(message *CreateCo
 	// Ensure type is set to "conversation-message" if empty
 	service.setCreateConversationMessageType(message)
 
-	req, _ := service.client.NewRequest("POST", _url, nil, message)
+	req, _ := service.newRequest("POST", _url, nil, message)
 
 	conversationMessage := new(ConversationMessageResponse)
 	response, err := service.client.Do(req, conversationMessage)
