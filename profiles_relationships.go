@@ -61,7 +61,7 @@ func (service *ProfilesService) GetProfileRelationshipsSegments(id string) (*Get
 func (service *ProfilesService) GetProfileRelationshipsConversation(id string) (*GetProfileRelationShipsGenericResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles/%s/relationships/conversation", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("GET", _url, nil, nil)
+	req, _ := service.newRequest("GET", _url, nil, nil)
 
 	segments := new(GetProfileRelationShipsGenericResponse)
 	response, err := service.client.Do(req, segments)
