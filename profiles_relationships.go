@@ -19,7 +19,7 @@ type GetProfileRelationShipsGenericArrayResponse struct {
 func (service *ProfilesService) GetProfileRelationshipsLists(id string) (*GetProfileRelationShipsGenericArrayResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles/%s/relationships/lists", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("GET", _url, nil, nil)
+	req, _ := service.newRequest("GET", _url, nil, nil)
 
 	lists := new(GetProfileRelationShipsGenericArrayResponse)
 	response, err := service.client.Do(req, lists)
