@@ -6,7 +6,9 @@ import (
 )
 
 // Metrics service
-type MetricsService service
+type MetricsService struct {
+	service
+}
 
 type GetMetricsResponse struct {
 	Data     *[]Metric           `json:"data,omitempty"`
@@ -78,7 +80,7 @@ func (p GetMetricsQueryParams) SetPageCursor(value string) {
 func (service *MetricsService) GetMetrics(opts *GetMetricsQueryParams) (*GetMetricsResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/metrics", ApiTypePrivate)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	metrics := new(GetMetricsResponse)
 	response, err := service.client.Do(req, metrics)

@@ -5,7 +5,9 @@ import (
 )
 
 // Events service
-type EventsService service
+type EventsService struct {
+	service
+}
 
 type GetEventsResponse struct {
 	Data     *[]Event           `json:"data,omitempty"`
@@ -147,7 +149,7 @@ func (p GetEventsQueryParams) Sort(value string) {
 func (service *EventsService) GetEvents(opts *GetEventsQueryParams) (*GetEventsResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/events", ApiTypePrivate)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	events := new(GetEventsResponse)
 	response, err := service.client.Do(req, events)
@@ -204,7 +206,7 @@ func (p GetEventByIDQueryParams) Include(values []string) {
 func (service *EventsService) GetEventByID(id string, opts *GetEventByIDQueryParams) (*GetEventByIDResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/events/%s", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	events := new(GetEventByIDResponse)
 	response, err := service.client.Do(req, events)
@@ -263,7 +265,7 @@ func (service *EventsService) CreateEvent(event *CreateEventCard) (*Response, er
 	// Ensure type is set to "event" if empty
 	service.setCreateUpdatedType(event)
 
-	req, _ := service.client.NewRequest("POST", _url, nil, event)
+	req, _ := service.newRequest("POST", _url, nil, event)
 
 	response, err := service.client.Do(req, nil)
 
