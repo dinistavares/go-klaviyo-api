@@ -15,7 +15,7 @@ type GetProfileRelationShipsGenericResponse struct {
 func (service *ProfilesService) GetProfileRelationshipsLists(id string) (*GetProfileRelationShipsGenericResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles/%s/relationships/lists", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("GET", _url, nil, nil)
+	req, _ := service.newRequest("GET", _url, nil, nil)
 
 	lists := new(GetProfileRelationShipsGenericResponse)
 	response, err := service.client.Do(req, lists)
@@ -36,7 +36,7 @@ func (service *ProfilesService) GetProfileRelationshipsLists(id string) (*GetPro
 func (service *ProfilesService) GetProfileRelationshipsSegments(id string) (*GetProfileRelationShipsGenericResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles/%s/relationships/segments", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("GET", _url, nil, nil)
+	req, _ := service.newRequest("GET", _url, nil, nil)
 
 	segments := new(GetProfileRelationShipsGenericResponse)
 	response, err := service.client.Do(req, segments)
