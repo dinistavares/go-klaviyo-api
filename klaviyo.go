@@ -17,7 +17,7 @@ const (
 	defaultOAuthPrefix           = "Bearer"
 	defaultAuthPrefix            = "Klaviyo-API-Key"
 	defaultRestEndpointURL       = "https://a.klaviyo.com"
-	defaultRestAPIRevision       = "2024-02-15"
+	defaultRestAPIRevision       = "2024-05-15"
 	acceptedContentType          = "application/json"
 	userAgent                    = "go-klaviyo-api/" + libraryVersion
 	clientRequestRetryAttempts   = 2
