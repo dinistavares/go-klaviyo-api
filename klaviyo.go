@@ -68,7 +68,7 @@ type Client struct {
 }
 
 type service struct {
-	client *Client
+	client   *Client
 	revision *string
 }
 
@@ -309,6 +309,10 @@ func (s *service) SetServiceRevision(revision string) {
 	if revision != "" {
 		s.revision = &revision
 	}
+}
+
+func (s *service) ClearServiceRevision() {
+	s.revision = nil
 }
 
 func (s *service) newRequest(method, urlStr string, opts interface{}, body interface{}) (*http.Request, error) {
