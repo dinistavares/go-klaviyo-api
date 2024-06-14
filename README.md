@@ -82,53 +82,53 @@ func main(){
 
 **List events**
 ```go
-	events, _, err := s.client.Events.GetEvents(nil)
+  events, _, err := s.client.Events.GetEvents(nil)
 ```
 
 **Get event by ID**
 ```go
-	id := "5ckD924B3fj"
+  id := "5ckD924B3fj"
 
-	event, _, err := s.client.Events.GetEventByID(id, nil)
+  event, _, err := s.client.Events.GetEventByID(id, nil)
 ```
 
 **Get events by profile ID**
 ```go
   // Create query filter and set 'profile_id'
-	filter := klaviyo.QueryFilter{}
-	filter.CreateEqualsFilter("profile_id", "01HZ2BE77YSX0T85PXKZAGFPWB")
+  filter := klaviyo.QueryFilter{}
+  filter.CreateEqualsFilter("profile_id", "01HZ2BE77YSX0T85PXKZAGFPWB")
 
   // Create query params and set filter and includes field.
-	params := s.client.Events.Query().NewGetEvents()
-	params.Filter(filter)
-	params.Include([]string{"metric"})
+  params := s.client.Events.Query().NewGetEvents()
+  params.Filter(filter)
+  params.Include([]string{"metric"})
 
   // Do request
-	event, _, err := s.client.Events.GetEvents(params)
+  event, _, err := s.client.Events.GetEvents(params)
 ```
 
 **Create an event for a profile by email**
 ```go
   // Create event properties
-	eventProperties := make(map[string]interface{})
-	eventProperties["event_data_1"] = "value1"
-	eventProperties["event_data_2"] = "value2"
+  eventProperties := make(map[string]interface{})
+  eventProperties["event_data_1"] = "value1"
+  eventProperties["event_data_2"] = "value2"
 
   // Create event profile
-	eventProfile := &klaviyo.Profile{
-		Attributes: &klaviyo.ProfileAttributes{
-			Email: "test1@crisp.chat",
-		},
-	}
+  eventProfile := &klaviyo.Profile{
+    Attributes: &klaviyo.ProfileAttributes{
+      Email: "test1@crisp.chat",
+    },
+  }
 
   // Create event Card and set values
-	createEvent := klaviyo.CreateEventCard{}
-	createEvent.SetEventMetric("Event name", "")
-	createEvent.SetEventProperties(eventProperties)
-	createEvent.SetEventProfile(eventProfile)
+  createEvent := klaviyo.CreateEventCard{}
+  createEvent.SetEventMetric("Event name", "")
+  createEvent.SetEventProperties(eventProperties)
+  createEvent.SetEventProfile(eventProfile)
 
   // Do request
-	resp, err := s.client.Events.CreateEvent(&createEvent)
+  resp, err := s.client.Events.CreateEvent(&createEvent)
 ```
 
 ### Profiles
@@ -174,7 +174,7 @@ func main(){
 
 **Get segments associated with a profile**
 ```go
-	id := "01HWWDZSHWG5J12PPK2HFG9VH9"
+  id := "01HWWDZSHWG5J12PPK2HFG9VH9"
 
-	profiles, _, err := s.client.Profiles.GetProfileSegments(id, nil)
+  profiles, _, err := s.client.Profiles.GetProfileSegments(id, nil)
 ```
