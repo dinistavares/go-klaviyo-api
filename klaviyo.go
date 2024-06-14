@@ -203,8 +203,6 @@ func (client *Client) NewRequest(method, urlStr string, opts interface{}, body i
 
 // Do sends an API request
 func (client *Client) Do(req *http.Request, v interface{}) (*Response, error) {
-
-	fmt.Printf("REVISION: %s \n\n", req.Header.Get("revision"))
 	var lastErr error
 
 	attempts := 0
