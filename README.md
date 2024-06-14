@@ -117,7 +117,7 @@ func main(){
   // Create event profile
   eventProfile := &klaviyo.Profile{
     Attributes: &klaviyo.ProfileAttributes{
-      Email: "test1@crisp.chat",
+      Email: "john.doe@example.com",
     },
   }
 
