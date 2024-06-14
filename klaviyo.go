@@ -68,6 +68,7 @@ type Client struct {
 
 type service struct {
 	client *Client
+	revision *string
 }
 
 type GenericResponse struct {
@@ -127,14 +128,14 @@ func NewWithConfig(config ClientConfig) *Client {
 	client := &Client{config: &config, client: config.HttpClient, auth: &auth{}, baseURL: baseURL}
 
 	// Map services
-	client.Accounts = &AccountsService{client: client}
-	client.Coupons = &CouponsService{client: client}
-	client.Events = &EventsService{client: client}
-	client.Lists = &ListsService{client: client}
-	client.Metrics = &MetricsService{client: client}
-	client.Profiles = &ProfilesService{client: client}
-	client.Segments = &SegmentsService{client: client}
-	client.Webhooks = &WebhooksService{client: client}
+	client.Accounts = &AccountsService{service{client: client}}
+	client.Coupons = &CouponsService{service{client: client}}
+	client.Events = &EventsService{service{client: client}}
+	client.Lists = &ListsService{service{client: client}}
+	client.Metrics = &MetricsService{service{client: client}}
+	client.Profiles = &ProfilesService{service{client: client}}
+	client.Segments = &SegmentsService{service{client: client}}
+	client.Webhooks = &WebhooksService{service{client: client}}
 
 	return client
 }
@@ -200,6 +201,8 @@ func (client *Client) NewRequest(method, urlStr string, opts interface{}, body i
 
 // Do sends an API request
 func (client *Client) Do(req *http.Request, v interface{}) (*Response, error) {
+	
+	fmt.Printf("REVISION: %s \n\n", req.Header.Get("revision"))
 	var lastErr error
 
 	attempts := 0
@@ -300,4 +303,24 @@ func checkResponse(response *http.Response) error {
 	}
 
 	return errorResponse
+}
+
+func (s *service) SetServiceRevision(revision string) {
+	if revision != "" {
+		s.revision = &revision
+	}
+}
+
+func (s *service) newRequest(method, urlStr string, opts interface{}, body interface{}) (*http.Request, error) {
+	req, err := s.client.NewRequest(method, urlStr, opts, body)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if s.revision != nil && *s.revision != "" {
+		req.Header.Set("revision", *s.revision)
+	}
+
+	return req, nil
 }

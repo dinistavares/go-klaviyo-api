@@ -5,7 +5,9 @@ import (
 )
 
 // Accounts service
-type AccountsService service
+type AccountsService struct {
+	service
+}
 
 type GetAccountsResponse struct {
 	Data  *[]Account    `json:"data,omitempty"`
@@ -97,7 +99,7 @@ func (p GetAccountsQueryParams) SetAccountFields(values []string) {
 func (service *AccountsService) GetAccounts(opts *GetAccountsQueryParams) (*GetAccountsResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/accounts", ApiTypePrivate)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	accounts := new(GetAccountsResponse)
 	response, err := service.client.Do(req, accounts)
@@ -133,7 +135,7 @@ func (p GetAccountByIDQueryParams) SetAccountFields(values []string) {
 func (service *AccountsService) GetAccountByID(id string, opts *GetAccountsQueryParams) (*GetAccountByIDResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/accounts/%s", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	accounts := new(GetAccountByIDResponse)
 	response, err := service.client.Do(req, accounts)

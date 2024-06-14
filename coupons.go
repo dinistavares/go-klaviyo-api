@@ -5,7 +5,9 @@ import (
 )
 
 // Coupons service
-type CouponsService service
+type CouponsService struct {
+	service
+}
 
 type GetCouponsResponse struct {
 	Data  *[]Coupon     `json:"data,omitempty"`
@@ -149,7 +151,7 @@ func (p GetCouponsQueryParams) SetPageCursor(value string) {
 func (service *CouponsService) GetCoupons(opts *GetCouponsQueryParams) (*GetCouponsResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/coupons", ApiTypePrivate)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	coupons := new(GetCouponsResponse)
 	response, err := service.client.Do(req, coupons)
@@ -185,7 +187,7 @@ func (p GetCouponByIDQueryParams) SetCouponFields(values []string) {
 func (service *CouponsService) GetCouponByID(id string, opts *GetCouponsQueryParams) (*GetCouponsResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/coupons/%s", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	coupons := new(GetCouponsResponse)
 	response, err := service.client.Do(req, coupons)
@@ -223,7 +225,7 @@ func (service *CouponsService) CreateCoupon(coupon *CreateCouponCard) (*Response
 	// Ensure type is set to "coupon" if empty
 	service.setCreateUpdatedCouponType(coupon)
 
-	req, _ := service.client.NewRequest("POST", _url, nil, coupon)
+	req, _ := service.newRequest("POST", _url, nil, coupon)
 
 	response, err := service.client.Do(req, nil)
 
@@ -302,7 +304,7 @@ func (p GetCouponCodesQueryParams) SetPageCursor(value string) {
 func (service *CouponsService) GetCouponCodes(opts *GetCouponCodesQueryParams) (*GetCouponCodesResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/coupon-codes", ApiTypePrivate)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	couponCodes := new(GetCouponCodesResponse)
 	response, err := service.client.Do(req, couponCodes)
@@ -347,7 +349,7 @@ func (service *CouponsService) CreateCouponCode(couponCode *CreateCouponCodeCard
 	// Ensure type is set to "coupon-code" if empty
 	service.setCreateCouponCodeType(couponCode)
 
-	req, _ := service.client.NewRequest("POST", _url, nil, couponCode)
+	req, _ := service.newRequest("POST", _url, nil, couponCode)
 
 	response, err := service.client.Do(req, nil)
 
@@ -422,7 +424,7 @@ func (service *CouponsService) UpdateCouponCode(id string, couponCode *UpdateCou
 	// Set coupon ID in body
 	couponCode.setCouponID(id)
 
-	req, _ := service.client.NewRequest("PATCH", _url, nil, couponCode)
+	req, _ := service.newRequest("PATCH", _url, nil, couponCode)
 
 	response, err := service.client.Do(req, nil)
 

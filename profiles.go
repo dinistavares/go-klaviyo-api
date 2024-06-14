@@ -6,7 +6,9 @@ import (
 )
 
 // Profiles service
-type ProfilesService service
+type ProfilesService struct {
+	service
+}
 
 type GetProfilesResponse struct {
 	Data  *[]Profile    `json:"data,omitempty"`
@@ -240,7 +242,7 @@ func (p GetProfilesQueryParams) Filter(filter QueryFilter) {
 func (service *ProfilesService) GetProfiles(opts *GetProfilesQueryParams) (*GetProfilesResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles", ApiTypePrivate)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	profiles := new(GetProfilesResponse)
 	response, err := service.client.Do(req, profiles)
@@ -297,7 +299,7 @@ func (p GetProfileByIDQueryParams) Include(values []string) {
 func (service *ProfilesService) GetProfileByID(id string, opts *GetProfileByIDQueryParams) (*GetProfileByIDResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles/%s", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	profile := new(GetProfileByIDResponse)
 	response, err := service.client.Do(req, profile)
@@ -321,7 +323,7 @@ func (service *ProfilesService) CreateProfile(profile *CreateUpdateProfile) (*Cr
 	// Ensure type is set to "profile" if empty
 	service.setCreateUpdatedType(profile)
 
-	req, _ := service.client.NewRequest("POST", _url, nil, profile)
+	req, _ := service.newRequest("POST", _url, nil, profile)
 
 	newProfile := new(CreateUpdateProfile)
 	response, err := service.client.Do(req, newProfile)
@@ -345,7 +347,7 @@ func (service *ProfilesService) UpdateProfile(id string, profile *CreateUpdatePr
 	// Ensure type is set to "profile" if empty
 	service.setCreateUpdatedType(profile)
 
-	req, _ := service.client.NewRequest("PATCH", _url, nil, profile)
+	req, _ := service.newRequest("PATCH", _url, nil, profile)
 
 	newProfile := new(CreateUpdateProfile)
 	response, err := service.client.Do(req, newProfile)
@@ -369,7 +371,7 @@ func (service *ProfilesService) CreateOrUpdateProfile(profile *CreateUpdateProfi
 	// Ensure type is set to "profile" if empty
 	service.setCreateUpdatedType(profile)
 
-	req, _ := service.client.NewRequest("POST", _url, nil, profile)
+	req, _ := service.newRequest("POST", _url, nil, profile)
 
 	newProfile := new(CreateUpdateProfile)
 	response, err := service.client.Do(req, newProfile)
@@ -405,7 +407,7 @@ func (p GetProfileListsQueryParams) SetListFields(values []string) {
 func (service *ProfilesService) GetProfileLists(id string, opts *GetProfileListsQueryParams) (*GetProfileListsResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles/%s/lists", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	lists := new(GetProfileListsResponse)
 	response, err := service.client.Do(req, lists)
@@ -441,7 +443,7 @@ func (p GetProfileSegmentsQueryParams) SetListFields(values []string) {
 func (service *ProfilesService) GetProfileSegments(id string, opts *GetProfileSegmentsQueryParams) (*GetProfileSegmentsResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/profiles/%s/segments", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	lists := new(GetProfileSegmentsResponse)
 	response, err := service.client.Do(req, lists)

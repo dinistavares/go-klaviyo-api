@@ -6,7 +6,9 @@ import (
 )
 
 // Events service
-type SegmentsService service
+type SegmentsService struct {
+	service
+}
 
 type GetSegmentsResponse struct {
 	Data     *[]Segment         `json:"data,omitempty"`
@@ -93,7 +95,7 @@ func (p GetSegmentQueryParams) SetPageCursor(value string) {
 func (service *SegmentsService) GetSegments(opts *GetSegmentQueryParams) (*GetSegmentsResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/segments", ApiTypePrivate)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	segments := new(GetSegmentsResponse)
 	response, err := service.client.Do(req, segments)

@@ -6,7 +6,9 @@ import (
 )
 
 // Lists service
-type ListsService service
+type ListsService struct {
+	service
+}
 
 type GetListsResponse struct {
 	Data     *[]List            `json:"data,omitempty"`
@@ -95,7 +97,7 @@ func (p GetListsQueryParams) SetPageCursor(value string) {
 func (service *ListsService) GetLists(opts *GetListsQueryParams) (*GetListsResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/lists", ApiTypePrivate)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	lists := new(GetListsResponse)
 	response, err := service.client.Do(req, lists)
@@ -118,7 +120,7 @@ func (service *ListsService) AddProfileToList(listID string, profiles *AddRemove
 
 	service.setAddRemoveProfilesType(profiles)
 
-	req, _ := service.client.NewRequest("POST", _url, nil, profiles)
+	req, _ := service.newRequest("POST", _url, nil, profiles)
 
 	response, err := service.client.Do(req, nil)
 
@@ -140,7 +142,7 @@ func (service *ListsService) RemoveProfileFromList(listID string, profiles *AddR
 
 	service.setAddRemoveProfilesType(profiles)
 
-	req, _ := service.client.NewRequest("DELETE", _url, nil, profiles)
+	req, _ := service.newRequest("DELETE", _url, nil, profiles)
 
 	response, err := service.client.Do(req, nil)
 

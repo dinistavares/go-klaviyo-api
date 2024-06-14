@@ -6,7 +6,9 @@ import (
 )
 
 // Webhooks service
-type WebhooksService service
+type WebhooksService struct {
+	service
+}
 
 type GetWebhooksResponse struct {
 	Data     *[]Webhook         `json:"data,omitempty"`
@@ -135,7 +137,7 @@ func (p GetWebhooksQueryParams) Include(values []string) {
 func (service *WebhooksService) GetWebhooks(opts *GetWebhooksQueryParams) (*GetWebhooksResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/webhooks", ApiTypePrivate)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	webhooks := new(GetWebhooksResponse)
 	response, err := service.client.Do(req, webhooks)
@@ -169,7 +171,7 @@ func (p GetWebhookByIDQueryParams) Include(values []string) {
 func (service *WebhooksService) GetWebhookByID(id string, opts *GetWebhookByIDQueryParams) (*GetWebhookByIDResponse, *Response, error) {
 	_url := fmt.Sprintf("%s/webhooks/%s", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	req, _ := service.newRequest("GET", _url, opts, nil)
 
 	webhooks := new(GetWebhookByIDResponse)
 	response, err := service.client.Do(req, webhooks)
@@ -220,7 +222,7 @@ func (service *WebhooksService) CreateWebhook(webhook *CreateWebhookCard) (*Crea
 	// Ensure type is set to "webhook" if empty
 	service.setCreateType(webhook)
 
-	req, _ := service.client.NewRequest("POST", _url, nil, webhook)
+	req, _ := service.newRequest("POST", _url, nil, webhook)
 
 	newWebhook := new(CreateWebhookResponse)
 	response, err := service.client.Do(req, newWebhook)
@@ -269,7 +271,7 @@ func (service *WebhooksService) UpdateWebhook(id string, webhook *CreateWebhookC
 	// Ensure type is set to "webhook" if empty
 	service.setCreateType(webhook)
 
-	req, _ := service.client.NewRequest("PATCH", _url, nil, webhook)
+	req, _ := service.newRequest("PATCH", _url, nil, webhook)
 
 	newWebhook := new(CreateWebhookResponse)
 	response, err := service.client.Do(req, newWebhook)
@@ -290,7 +292,7 @@ func (service *WebhooksService) UpdateWebhook(id string, webhook *CreateWebhookC
 func (service *WebhooksService) DeleteWebhook(id string) (*Response, error) {
 	_url := fmt.Sprintf("%s/webhooks/%s", ApiTypePrivate, id)
 
-	req, _ := service.client.NewRequest("DELETE", _url, nil, nil)
+	req, _ := service.newRequest("DELETE", _url, nil, nil)
 
 	response, err := service.client.Do(req, nil)
 
