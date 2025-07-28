@@ -22,17 +22,17 @@ const (
 	userAgent                    = "go-klaviyo-api/" + libraryVersion
 	clientRequestRetryAttempts   = 2
 	clientRequestRetryHoldMillis = 1000
-)
-
-var (
-	errorDoAllAttemptsExhausted = errors.New("all request attempts were exhausted")
-	errorDoAttemptNilRequest    = errors.New("request could not be constructed")
 
 	// API type 'api' for use with private access tokens
 	ApiTypePrivate ApiType = "api"
 
 	// API type 'api' for use with public access tokens
 	ApiTypePublic ApiType = "client"
+)
+
+var (
+	errorDoAllAttemptsExhausted = errors.New("all request attempts were exhausted")
+	errorDoAttemptNilRequest    = errors.New("request could not be constructed")
 )
 
 type ApiType string
