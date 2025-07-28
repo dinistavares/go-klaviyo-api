@@ -1,6 +1,7 @@
 package klaviyo
 
 import (
+	"net/url"
 	"reflect"
 	"strings"
 )
@@ -23,7 +24,10 @@ func (v QueryValues) encode() string {
 			query = "?"
 		}
 
-		query += key + "=" + value
+		// URL encode both key and value
+		encodedKey := url.QueryEscape(key)
+		encodedValue := url.QueryEscape(value)
+		query += encodedKey + "=" + encodedValue
 
 		count++
 	}
