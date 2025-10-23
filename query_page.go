@@ -12,7 +12,16 @@ func (f queryPage) set(key string, value interface{}) {
 	}
 }
 
+// Set page cursor. Value must be a string, it can be either the cursor value or the next \
+//    cursor endpoint returned from the previous request.
 func (f queryPage) setPageCursor(value string) {
+	match := klaviyoPageCursorRegex.FindStringSubmatch(value)
+
+	// Only use cursor if the whole URL is provided.
+	if len(match) == 3 {
+		value = match[2]
+	}
+
 	f.set("cursor", value)
 }
 

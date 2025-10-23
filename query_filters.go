@@ -251,6 +251,11 @@ func (f *QueryFilter) CreateAnyFilter(operator string, value interface{}, negate
 func interfaceIsSlice(i interface{}) (interface{}, bool) {
 	v := reflect.ValueOf(i)
 
+	// Automatically convert string to slice of strings.
+	if v.Kind() == reflect.String {
+		return v, true
+	}
+
 	if v.Kind() == reflect.Slice && v.Len() > 0 {
 		first := v.Index(0).Interface()
 
