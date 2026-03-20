@@ -22,6 +22,7 @@ const (
 	userAgent                    = "go-klaviyo-api/" + libraryVersion
 	clientRequestRetryAttempts   = 2
 	clientRequestRetryHoldMillis = 1000
+	clientTimeout                = 10
 
 	// API type 'api' for use with private access tokens
 	ApiTypePrivate ApiType = "api"
@@ -112,7 +113,10 @@ func (response *GenericResponse) Error() string {
 
 func NewWithConfig(config ClientConfig) *Client {
 	if config.HttpClient == nil {
-		config.HttpClient = http.DefaultClient
+		// Create client
+		config.HttpClient = &http.Client{
+			Timeout: time.Duration(clientTimeout * time.Second),
+		}
 	}
 
 	if config.RestEndpointURL == "" {
